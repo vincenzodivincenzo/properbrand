@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proper Brand - LinkedIn Lead Generation</title>
 
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q8K7BY33M7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -19,10 +18,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Hero Section -->
+    
     <div class="relative px-4 pt-16 pb-20">
         <div class="max-w-6xl mx-auto">
-            <!-- Navigation -->
+
             <div class="w-full flex flex-wrap justify-between items-center mb-24 fade-in" style="animation-delay: 0.2s">
                 <div class="flex items-center gap-2">
                     <div class="w-6 h-6 bg-[#07efce] rounded-full"></div>
@@ -42,7 +41,7 @@
             </div>
 
             <div class="flex flex-col lg:flex-row justify-between items-start gap-12">
-                <!-- Hero Content -->
+
                 <div class="flex-1 fade-in" style="animation-delay: 0.4s">
                     <h1 class="text-6xl font-medium leading-tight tracking-tight mb-6 text-white">
                         Turn your founder brand into your 
@@ -53,7 +52,6 @@
                     </p>
                 </div>
 
-                <!-- Card -->
                 <div class="w-full lg:w-96 fade-in" style="animation-delay: 0.6s">
                     <div class="gradient-card text-white p-8 rounded-2xl relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
@@ -92,7 +90,6 @@
         </div>
     </div>
 
-    <!-- Features Section -->
     <div class="bg-[#161616] py-24">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-16 animate-on-scroll">
@@ -119,7 +116,6 @@
         </div>
     </div>
 
-    <!-- The Problem Section -->
     <div class="bg-[#161616] py-24">
         <div class="max-w-6xl mx-auto px-4">
             <div class="animate-on-scroll">
@@ -144,7 +140,6 @@
         </div>
     </div>
 
-    <!-- The Proper System Section -->
     <div id="proper-system" class="bg-[#161616] py-24">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-8 animate-on-scroll">
@@ -206,7 +201,6 @@
         </div>
     </div>
 
-    <!-- For You If Section -->
     <div class="bg-[#161616] py-24">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex flex-col md:flex-row gap-12">
@@ -261,7 +255,6 @@
         </div>
     </div>
 
-    <!-- Client Results Section -->
     <div id="client-results" class="bg-[#161616] py-24 border-t border-b border-[#07efce]/10">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-16 animate-on-scroll">
@@ -387,7 +380,7 @@
             </div>
         </div>
     </div>
-    <!-- CTA Section -->
+
 <div class="highlight-section py-24">
     <div class="max-w-6xl mx-auto px-4 text-center">
         <div class="max-w-2xl mx-auto animate-on-scroll">
@@ -399,7 +392,6 @@
             </p>
         </div>
         
-        <!-- Calendar container that takes full width -->
         <div class="mx-auto w-full max-w-4xl overflow-hidden">
             <div id="my-cal-inline" class="w-full h-[700px] overflow-hidden"></div>
             <script type="text/javascript">
@@ -416,12 +408,11 @@
             });
               Cal.ns.audit("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
             </script>
-            <!-- Cal inline embed code ends -->
+
         </div>
     </div>
 </div>
 
-    <!-- Footer -->
     <footer class="bg-[#111111] py-16 border-t border-[#07efce]/10">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between gap-12">
@@ -488,7 +479,7 @@
     </footer>
 
     <script>
-        // Animation on scroll
+
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -507,11 +498,11 @@
             observer.observe(element);
         });
         
-        // Toggle dropdown for case studies and system details
+
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);
             if (dropdown.classList.contains('hidden')) {
-                // If it's a case study, close other case studies
+
                 if (id.startsWith('case')) {
                     document.querySelectorAll('[id^="case"]').forEach(el => {
                         if (el.id !== id) {
@@ -519,7 +510,7 @@
                         }
                     });
                 }
-                // Open this dropdown
+
                 dropdown.classList.remove('hidden');
             } else {
                 dropdown.classList.add('hidden');
