@@ -261,7 +261,6 @@
         let totalInitialTime;
         let sessionHistory = [];
 
-        // Check for saved settings and history in localStorage
         function loadSavedData() {
             if (localStorage.getItem('pomodoroSettings')) {
                 const settings = JSON.parse(localStorage.getItem('pomodoroSettings'));
@@ -300,7 +299,6 @@
             const remainingSeconds = seconds % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
             
-            // Update progress bar
             const progress = ((totalInitialTime - seconds) / totalInitialTime) * 100;
             progressBar.style.width = `${progress}%`;
         }
@@ -356,7 +354,7 @@
         }
 
         function switchMode() {
-            // Add completed session to history
+
             if (isWorkMode) {
                 addHistoryEntry('Work', workMinutesInput.value);
             } else {
@@ -386,7 +384,6 @@
             totalInitialTime = timeLeft;
             updateDisplay(timeLeft);
             
-            // Notify if browser supports it
             if ("Notification" in window && Notification.permission === "granted") {
                 new Notification(modeDisplay.textContent, {
                     body: `Time to ${isWorkMode ? 'focus' : 'take a break'}!`,
@@ -399,7 +396,6 @@
             if (!isRunning) {
                 isRunning = true;
                 
-                // Request notification permission
                 if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
                     Notification.requestPermission();
                 }
@@ -471,14 +467,11 @@
             if (!isWorkMode && pomodoroSequence === 3) resetTimer();
         });
 
-        // Initialize the timer and history
         loadSavedData();
         resetTimer();
         
-        // Add clear history button listener
         document.getElementById('clearHistory').addEventListener('click', clearHistory);
 
-        // Add animation on scroll
         const observeElements = document.querySelectorAll('.animate-on-scroll');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
