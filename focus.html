@@ -3,21 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Theme Pomodoro Timer</title>
+    <title>Proper Brand - Pomodoro Timer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
     <style>
-        /* Minimal custom styles for Pomodoro functionality */
-        .pomodoro-container {
-            background: #1a1a1a;
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
+        /* Only adding styles not covered in style.css */
         .tomato-container {
             position: relative;
             width: 150px;
@@ -32,6 +25,7 @@
             border-radius: 50%;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 0 20px rgba(7, 239, 206, 0.3);
         }
 
         .leaf {
@@ -45,68 +39,12 @@
             transform: translateX(-50%) rotate(45deg);
         }
 
-        #timer {
-            font-size: 4rem;
-            font-weight: bold;
-            margin: 1rem 0;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .controls button {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            background: linear-gradient(135deg, #07efce 0%, #06d9b9 100%);
-            color: #161616;
-            font-weight: bold;
-        }
-
-        .controls button.secondary {
-            background: #1a1a1a;
-            color: #f3f4f6;
-            border: 1px solid #07efce;
-        }
-
-        .settings {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .setting-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        input {
-            width: 60px;
-            padding: 0.5rem;
-            border: 2px solid #07efce;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1rem;
-            background: #1a1a1a;
-            color: #f3f4f6;
-        }
-
         .progress-bar {
             width: 100%;
             height: 10px;
             background: #333;
-            border-radius: 5px;
-            margin: 1rem 0;
+            border-radius: 10px;
+            margin: 1.5rem 0;
             overflow: hidden;
         }
 
@@ -116,126 +54,134 @@
             width: 0%;
             transition: width 1s linear;
         }
-
-        .mode-indicator {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #07efce;
-            margin-bottom: 1rem;
-        }
-
-        .stats {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 2px solid #333;
-        }
-
-        .history-section {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 2px solid #333;
-            text-align: left;
-        }
-
-        .history-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
+        
         .history-list {
             max-height: 200px;
             overflow-y: auto;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 0.5rem;
-        }
-
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem;
-            border-bottom: 1px solid #333;
-            font-size: 0.9rem;
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-item .type-work {
-            color: #07efce;
-        }
-
-        .history-item .type-break {
-            color: #06d9b9;
-        }
-
-        .clear-history {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            background: #333;
-            color: #f3f4f6;
         }
     </style>
 </head>
-<body>
-    <div class="pomodoro-container gradient-card">
-        <div class="tomato-container">
-            <div class="tomato hover-glow">
-                <div class="leaf"></div>
+<body class="bg-[#161616] text-white">
+    <!-- Navbar -->
+    <nav class="relative px-4 pt-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="w-full flex flex-wrap justify-between items-center mb-8 fade-in">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-[#07efce] rounded-full"></div>
+                    <span class="text-xl font-medium text-white">Proper Brand</span>
+                </div>
+                <div class="flex gap-3">
+                    <a href="index.html" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                        Back to home
+                    </a>
+                </div>
             </div>
         </div>
-        
-        <div class="mode-indicator fade-in" id="modeDisplay">Work Time</div>
-        <div id="timer" class="fade-in">25:00</div>
-        
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto px-4 pb-20">
+        <div class="text-center max-w-2xl mx-auto mb-12 fade-in">
+            <h1 class="text-4xl md:text-5xl font-medium mb-6 text-white">
+                Stay <span class="italic-text text-[#07efce]">focused</span> with Proper
+            </h1>
+            <p class="text-lg text-gray-300">
+                Maximize your productivity with our custom Pomodoro timer designed for founders.
+            </p>
         </div>
 
-        <div class="controls">
-            <button id="start" class="fade-in">Start</button>
-            <button id="pause" class="fade-in">Pause</button>
-            <button id="reset" class="secondary fade-in">Reset</button>
-            <button id="skip" class="secondary fade-in">Skip</button>
-        </div>
+        <!-- Pomodoro Timer Card -->
+        <div class="max-w-lg mx-auto bg-[#1a1a1a] rounded-2xl p-8 border border-[#07efce]/20 shadow-lg fade-in">
+            <div class="tomato-container">
+                <div class="tomato hover-glow">
+                    <div class="leaf"></div>
+                </div>
+            </div>
+            
+            <div id="modeDisplay" class="text-[#07efce] text-xl font-medium mb-2">Work Time</div>
+            <div id="timer" class="text-5xl font-bold my-4">25:00</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
 
-        <div class="settings fade-in">
-            <div class="setting-group">
-                <label for="workMinutes">Work (min)</label>
-                <input type="number" id="workMinutes" min="1" max="60" value="25">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                <button id="start" class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
+                    Start
+                </button>
+                <button id="pause" class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
+                    Pause
+                </button>
+                <button id="reset" class="px-4 py-3 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                    Reset
+                </button>
+                <button id="skip" class="px-4 py-3 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                    Skip
+                </button>
             </div>
-            <div class="setting-group">
-                <label for="breakMinutes">Break (min)</label>
-                <input type="number" id="breakMinutes" min="1" max="30" value="5">
-            </div>
-            <div class="setting-group">
-                <label for="longBreakMinutes">Long Break (min)</label>
-                <input type="number" id="longBreakMinutes" min="1" max="60" value="15">
-            </div>
-        </div>
 
-        <div class="stats fade-in">
-            <p>Sessions Completed: <span id="sessionsCount">0</span></p>
-            <p>Total Focus Time: <span id="totalTime">0</span> minutes</p>
-        </div>
-
-        <div class="history-section fade-in">
-            <div class="history-title">
-                <h3>Session History</h3>
-                <button id="clearHistory" class="clear-history">Clear History</button>
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="flex flex-col">
+                    <label for="workMinutes" class="text-sm text-gray-400 mb-1">Work (min)</label>
+                    <input type="number" id="workMinutes" min="1" max="60" value="25" 
+                           class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
+                </div>
+                <div class="flex flex-col">
+                    <label for="breakMinutes" class="text-sm text-gray-400 mb-1">Break (min)</label>
+                    <input type="number" id="breakMinutes" min="1" max="30" value="5" 
+                           class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
+                </div>
+                <div class="flex flex-col">
+                    <label for="longBreakMinutes" class="text-sm text-gray-400 mb-1">Long Break (min)</label>
+                    <input type="number" id="longBreakMinutes" min="1" max="60" value="15" 
+                           class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
+                </div>
             </div>
-            <div class="history-list" id="historyList">
-                <!-- History items will be added here dynamically -->
+
+            <div class="border-t border-[#07efce]/10 pt-6 mb-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
+                        <p class="text-sm text-gray-400">Sessions Completed</p>
+                        <p id="sessionsCount" class="text-2xl font-bold text-[#07efce]">0</p>
+                    </div>
+                    <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
+                        <p class="text-sm text-gray-400">Total Focus Time</p>
+                        <p><span id="totalTime" class="text-2xl font-bold text-[#07efce]">0</span> <span class="text-gray-400">min</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-[#07efce]/10 pt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-medium">Session History</h3>
+                    <button id="clearHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                        Clear History
+                    </button>
+                </div>
+                <div class="history-list rounded-xl border border-[#07efce]/10 bg-[#161616]/60 p-4" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Audio for timer completion -->
     <audio id="alertSound">
         <source src="data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAADAAAGhgBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVWqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr///////////////////////////////////////////8AAAA5TEFNRTMuOTlyAm4AAAAALAAAACQgAANAQgAARgAABoZIqI6zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//sQxAADwAABpAAAACAAADSAAAAETEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=" type="audio/mpeg">
     </audio>
+
+    <!-- Footer -->
+    <footer class="bg-[#111111] py-8 border-t border-[#07efce]/10">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="w-4 h-4 bg-[#07efce] rounded-full"></div>
+                <span class="text-md font-medium text-white">Proper Brand</span>
+            </div>
+            <p class="text-center text-gray-400 text-sm">
+                A tool for founders who value their time. © 2025 Proper Brand.
+            </p>
+        </div>
+    </footer>
 
     <script>
         const timerDisplay = document.getElementById('timer');
@@ -333,17 +279,25 @@
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
             
+            if (sessionHistory.length === 0) {
+                historyList.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">No sessions recorded yet</p>';
+                return;
+            }
+            
             sessionHistory.forEach(entry => {
                 const date = new Date(entry.timestamp);
                 const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 const dateString = date.toLocaleDateString();
                 
                 const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
+                historyItem.className = 'flex justify-between py-2 border-b border-[#07efce]/10 last:border-b-0';
+                
+                const typeColor = entry.type.toLowerCase().includes('work') ? '#07efce' : '#06d9b9';
+                
                 historyItem.innerHTML = `
-                    <span class="type-${entry.type.toLowerCase()}">${entry.type}</span>
-                    <span>${entry.duration} minutes</span>
-                    <span>${dateString} ${timeString}</span>
+                    <span class="font-medium" style="color: ${typeColor}">${entry.type}</span>
+                    <span class="text-gray-400">${entry.duration} min</span>
+                    <span class="text-gray-400 text-sm">${dateString} ${timeString}</span>
                 `;
                 
                 historyList.appendChild(historyItem);
@@ -479,18 +433,12 @@
         // Add clear history button listener
         document.getElementById('clearHistory').addEventListener('click', clearHistory);
 
-        // Add animation on scroll
-        const observeElements = document.querySelectorAll('.animate-on-scroll');
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+        // Fade-in animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                element.style.animationDelay = `${0.2 * index}s`;
             });
-        });
-
-        observeElements.forEach(element => {
-            observer.observe(element);
         });
     </script>
 </body>
