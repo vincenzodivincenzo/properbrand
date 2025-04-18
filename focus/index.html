@@ -81,12 +81,13 @@
 
     <!-- Main Content -->
     <div class="max-w-6xl mx-auto px-4 pb-20">
+        <!-- Updated Title and Subtitle -->
         <div class="text-center max-w-2xl mx-auto mb-12 fade-in">
             <h1 class="text-4xl md:text-5xl font-medium mb-6 text-white">
-                Stay <span class="italic-text text-[#07efce]">focused</span> with Proper
+                Unlock <span class="italic-text text-[#07efce]">Proper</span> Focus
             </h1>
             <p class="text-lg text-gray-300">
-                Maximize your productivity with our custom Pomodoro timer designed for founders.
+                A small Pomodoro timer designed for impact makers. Use it for free
             </p>
         </div>
 
@@ -151,12 +152,22 @@
                 </div>
             </div>
 
+            <!-- Updated History Section with Import/Export -->
             <div class="border-t border-[#07efce]/10 pt-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-medium">Session History</h3>
-                    <button id="clearHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
-                        Clear History
-                    </button>
+                    <div class="flex gap-2">
+                        <button id="exportHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                            Export CSV
+                        </button>
+                        <label for="importFile" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce] cursor-pointer">
+                            Import CSV
+                        </label>
+                        <input type="file" id="importFile" accept=".csv" class="hidden">
+                        <button id="clearHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                            Clear History
+                        </button>
+                    </div>
                 </div>
                 <div class="history-list rounded-xl border border-[#07efce]/10 bg-[#161616]/60 p-4" id="historyList">
                     <!-- History items will be added here -->
@@ -258,13 +269,22 @@
             saveSettings();
         }
 
+        // Bug fix 3: Add label functionality for work periods
         function addHistoryEntry(type, duration) {
             const now = new Date();
+            
+            // If it's a work session, prompt for a label
+            let label = "";
+            if (type.toLowerCase().includes('work')) {
+                label = prompt("What did you work on?", "");
+            }
+            
             const entry = {
                 type: type,
                 duration: duration,
                 timestamp: now.toISOString(),
-                completed: true
+                completed: true,
+                label: label || ""  // Store the label
             };
             
             sessionHistory.unshift(entry);
@@ -275,6 +295,7 @@
             saveHistory();
         }
 
+        // Update history display to show labels
         function updateHistoryDisplay() {
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
@@ -294,20 +315,25 @@
                 
                 const typeColor = entry.type.toLowerCase().includes('work') ? '#07efce' : '#06d9b9';
                 
-                historyItem.innerHTML = `
-                    <span class="font-medium" style="color: ${typeColor}">${entry.type}</span>
+                // Create the HTML structure for the history item
+                let historyHTML = `
+                    <div>
+                        <span class="font-medium" style="color: ${typeColor}">${entry.type}</span>`;
+                
+                // Add label if it exists and it's a work session
+                if (entry.label && entry.type.toLowerCase().includes('work')) {
+                    historyHTML += `<br><span class="text-gray-400 text-xs">${entry.label}</span>`;
+                }
+                
+                historyHTML += `
+                    </div>
                     <span class="text-gray-400">${entry.duration} min</span>
                     <span class="text-gray-400 text-sm">${dateString} ${timeString}</span>
                 `;
                 
+                historyItem.innerHTML = historyHTML;
                 historyList.appendChild(historyItem);
             });
-        }
-
-        function clearHistory() {
-            sessionHistory = [];
-            saveHistory();
-            updateHistoryDisplay();
         }
 
         function switchMode() {
@@ -350,9 +376,13 @@
             }
         }
 
+        // Bug fix 2: Add sound notification when timer starts
         function startTimer() {
             if (!isRunning) {
                 isRunning = true;
+                
+                // Play sound when timer starts
+                alertSound.play();
                 
                 // Request notification permission
                 if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
@@ -409,6 +439,176 @@
             switchMode();
         }
 
+        // Bug fix 1: Preserve session stats when clearing history
+        function clearHistory() {
+            // Only clear the history array, preserve stats
+            sessionHistory = [];
+            saveHistory();
+            updateHistoryDisplay();
+            // Don't reset sessions completed or total time
+        }
+
+        // Export history to CSV
+        function exportHistoryToCSV() {
+            if (sessionHistory.length === 0) {
+                alert('No sessions to export');
+                return;
+            }
+            
+            // Create CSV header
+            let csvContent = 'Type,Label,Duration (minutes),Start Date,Start Time,End Date,End Time\n';
+            
+            // Add each session to CSV
+            sessionHistory.forEach(entry => {
+                const startDate = new Date(entry.timestamp);
+                
+                // Calculate end time by adding duration
+                const endDate = new Date(startDate.getTime() + (entry.duration * 60 * 1000));
+                
+                // Format dates for CSV
+                const startDateStr = startDate.toLocaleDateString();
+                const startTimeStr = startDate.toLocaleTimeString();
+                const endDateStr = endDate.toLocaleDateString();
+                const endTimeStr = endDate.toLocaleTimeString();
+                
+                // Escape label content for CSV (replace commas and quotes)
+                const safeLabel = entry.label ? `"${entry.label.replace(/"/g, '""')}"` : '';
+                
+                // Add row to CSV
+                csvContent += `${entry.type},${safeLabel},${entry.duration},${startDateStr},${startTimeStr},${endDateStr},${endTimeStr}\n`;
+            });
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            
+            // Set filename with current date
+            const today = new Date();
+            const filename = `pomodoro_history_${today.toISOString().split('T')[0]}.csv`;
+            
+            // Download file
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Import history from CSV
+        function importHistoryFromCSV(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const csvData = event.target.result;
+                const lines = csvData.split('\n');
+                
+                // Skip header row
+                if (lines.length <= 1) {
+                    alert('CSV file is empty or invalid');
+                    return;
+                }
+                
+                // Clear existing history (optional - could also append)
+                if (confirm('Replace existing history with imported data?')) {
+                    sessionHistory = [];
+                }
+                
+                // Parse each line (skipping header)
+                for (let i = 1; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue; // Skip empty lines
+                    
+                    const columns = parseCSVLine(lines[i]);
+                    
+                    if (columns.length >= 5) {
+                        // Extract data
+                        const type = columns[0];
+                        const label = columns[1].replace(/^"|"$/g, '').replace(/""/g, '"'); // Remove CSV quotes
+                        const duration = parseInt(columns[2]) || 0;
+                        
+                        // Parse start date/time
+                        let startDateStr = columns[3];
+                        let startTimeStr = columns[4];
+                        
+                        // Create timestamp from date/time strings
+                        const dateParts = startDateStr.split('/');
+                        if (dateParts.length === 3) {
+                            // Try to parse date in various formats
+                            let startDate;
+                            try {
+                                // Try to parse the date
+                                startDate = new Date(`${startDateStr} ${startTimeStr}`);
+                                
+                                // If invalid, try alternative format
+                                if (isNaN(startDate.getTime())) {
+                                    // Try MM/DD/YYYY format
+                                    startDate = new Date(`${dateParts[0]}/${dateParts[1]}/${dateParts[2]} ${startTimeStr}`);
+                                }
+                            } catch (e) {
+                                console.error('Error parsing date:', e);
+                                continue;
+                            }
+                            
+                            if (!isNaN(startDate.getTime())) {
+                                // Add to history if date parsing succeeded
+                                sessionHistory.push({
+                                    type: type,
+                                    label: label,
+                                    duration: duration,
+                                    timestamp: startDate.toISOString(),
+                                    completed: true
+                                });
+                            }
+                        }
+                    }
+                }
+                
+                // Sort history by timestamp (newest first)
+                sessionHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                // Update display and save
+                updateHistoryDisplay();
+                saveHistory();
+                
+                alert('History imported successfully!');
+            };
+            
+            reader.onerror = function() {
+                alert('Failed to read the file');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Helper function to parse CSV lines properly (handles quoted fields with commas)
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    // Toggle quote mode
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    // End of field if comma is outside quotes
+                    result.push(current);
+                    current = '';
+                } else {
+                    // Add character to current field
+                    current += char;
+                }
+            }
+            
+            // Add the last field
+            result.push(current);
+            
+            return result;
+        }
+
         startButton.addEventListener('click', startTimer);
         pauseButton.addEventListener('click', pauseTimer);
         resetButton.addEventListener('click', resetTimer);
@@ -424,6 +624,18 @@
         longBreakMinutesInput.addEventListener('change', () => {
             saveSettings();
             if (!isWorkMode && pomodoroSequence === 3) resetTimer();
+        });
+
+        // Add event listeners for export/import
+        document.getElementById('exportHistory').addEventListener('click', exportHistoryToCSV);
+
+        document.getElementById('importFile').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                importHistoryFromCSV(file);
+            }
+            // Clear the input so the same file can be selected again
+            this.value = '';
         });
 
         // Initialize the timer and history
