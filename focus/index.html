@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* Only adding styles not covered in style.css */
         .tomato-container {
             position: relative;
             width: 80px;
@@ -65,7 +64,6 @@
     </style>
 </head>
 <body class="bg-[#161616] text-white">
-    <!-- Navbar -->
     <nav class="relative px-4 pt-6">
         <div class="max-w-6xl mx-auto">
             <div class="w-full flex flex-wrap justify-between items-center mb-8 fade-in">
@@ -84,9 +82,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 pb-20">
-        <!-- Title and Subtitle Section -->
         <div class="text-center max-w-2xl mx-auto mb-12 fade-in">
             <h1 class="text-4xl md:text-5xl font-medium mb-6 text-white">
                 Unlock <span class="font-playfair italic text-[#07efce]">Proper</span> Focus
@@ -96,15 +92,11 @@
             </p>
         </div>
 
-        <!-- Tool Container -->
         <div class="flex justify-center">
-            <!-- Unified Card for Desktop -->
             <div class="bg-[#1a1a1a] rounded-2xl border border-[#07efce]/20 shadow-lg fade-in">
-                <!-- Mobile: Stack both sections, Desktop: Side by side -->
                 <div class="flex flex-col lg:flex-row lg:divide-x lg:divide-[#07efce]/10">
                     <!-- Timer Section -->
                     <div class="p-8 lg:w-1/2">
-                        <!-- Timer and Pomodoro Section -->
                         <div class="flex items-center gap-6 mb-4">
                             <div class="flex-1">
                                 <div id="modeDisplay" class="text-[#07efce] text-xl font-medium mb-2">Work Time</div>
@@ -116,7 +108,6 @@
                             </div>
                         </div>
                         
-                        <!-- Add Work Label Input Field -->
                         <div class="mb-4">
                             <label for="workLabel" class="text-sm text-gray-400 mb-1">Current Task</label>
                             <input type="text" id="workLabel" placeholder="What are you working on?" 
@@ -161,7 +152,6 @@
                         </div>
                     </div>
 
-                    <!-- Stats and History Section -->
                     <div class="border-t border-[#07efce]/10 lg:border-t-0 p-8 lg:w-1/2">
                         <div class="grid grid-cols-2 gap-6 mb-6">
                             <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
@@ -174,7 +164,6 @@
                             </div>
                         </div>
 
-                        <!-- History Section -->
                         <div class="border-t border-[#07efce]/10 pt-6">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="font-medium">Session History</h3>
@@ -192,11 +181,9 @@
                                 </div>
                             </div>
                             <div class="history-list rounded-xl border border-[#07efce]/10 bg-[#161616]/60 p-4 h-[calc(100vh-600px)] min-h-[200px] overflow-y-auto" id="historyList">
-                                <!-- History items will be added here -->
                             </div>
                         </div>
                         
-                        <!-- Sound controls -->
                         <div class="border-t border-[#07efce]/10 pt-6 mt-6">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="font-medium">Sound Settings</h3>
@@ -217,7 +204,6 @@
         </div>
     </div>
 
-    <!-- Audio for sounds -->
     <audio id="buttonClickSound">
         <source src="button-click.mp3" type="audio/mpeg">
     </audio>
@@ -226,7 +212,6 @@
         <source src="end-timer.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Footer -->
     <footer class="bg-[#111111] py-8 border-t border-[#07efce]/10">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex items-center justify-center gap-2 mb-4">
@@ -240,7 +225,6 @@
     </footer>
 
     <script>
-        // Create a Web Worker for accurate timing
         const timerWorker = new Worker(URL.createObjectURL(new Blob([`
             let timer;
             self.onmessage = function(e) {
@@ -267,7 +251,6 @@
         const sessionsCount = document.getElementById('sessionsCount');
         const totalTime = document.getElementById('totalTime');
         
-        // Sound elements
         const buttonClickSound = document.getElementById('buttonClickSound');
         const timerEndSound = document.getElementById('timerEndSound');
         const volumeControl = document.getElementById('volumeControl');
@@ -282,10 +265,10 @@
         let pomodoroSequence = 0;
         let totalInitialTime;
         let sessionHistory = [];
-        let startTime; // Track when the timer started
-        let elapsedTime = 0; // Track elapsed time for accurate skipping
+        let startTime;
+        let elapsedTime = 0;
 
-        // Sound functions
+
         function playButtonSound() {
             if (!muteSound.checked) {
                 buttonClickSound.volume = parseFloat(volumeControl.value);
@@ -302,12 +285,10 @@
             }
         }
         
-        // Add click sound to all buttons
         document.querySelectorAll('button, input[type="checkbox"], input[type="range"]').forEach(element => {
             element.addEventListener('click', playButtonSound);
         });
 
-        // Update button states
         function updateButtonStates() {
             if (isRunning) {
                 startButton.disabled = true;
@@ -320,7 +301,6 @@
             }
         }
 
-        // Check for saved settings and history in localStorage
         function loadSavedData() {
             if (localStorage.getItem('pomodoroSettings')) {
                 const settings = JSON.parse(localStorage.getItem('pomodoroSettings'));
@@ -330,7 +310,6 @@
                 totalTimeSpent = settings.totalTime || 0;
                 sessionsCompleted = settings.sessions || 0;
                 
-                // Load sound settings if available
                 if (settings.volume !== undefined) {
                     volumeControl.value = settings.volume;
                 }
@@ -369,7 +348,6 @@
             const remainingSeconds = seconds % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
             
-            // Update progress bar
             const progress = ((totalInitialTime - seconds) / totalInitialTime) * 100;
             progressBar.style.width = `${progress}%`;
         }
@@ -380,7 +358,6 @@
             saveSettings();
         }
 
-        // Updated addHistoryEntry to accept a label parameter
         function addHistoryEntry(type, duration, label = "") {
             const now = new Date();
             
@@ -389,7 +366,7 @@
                 duration: duration,
                 timestamp: now.toISOString(),
                 completed: true,
-                label: label  // Use the provided label
+                label: label
             };
             
             sessionHistory.unshift(entry);
@@ -400,7 +377,6 @@
             saveHistory();
         }
 
-        // Improved history display for better label visibility
         function updateHistoryDisplay() {
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
@@ -420,13 +396,11 @@
                 
                 const typeColor = entry.type.toLowerCase().includes('work') ? '#07efce' : '#06d9b9';
                 
-                // Create a more structured layout for history items
                 let historyHTML = `
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
                             <span class="font-medium" style="color: ${typeColor}">${entry.type}</span>`;
                 
-                // Add label with better styling if it exists
                 if (entry.label && entry.type.toLowerCase().includes('work')) {
                     historyHTML += `
                             <div class="mt-1 text-white text-sm bg-[#161616]/80 px-2 py-1 rounded-md inline-block">
@@ -448,25 +422,23 @@
             });
         }
 
-        // Modified switchMode to get label before completing a session
-        function switchMode() {
-            // Add completed session to history
-            if (isWorkMode) {
-                // Play timer end sound
-                playTimerEndSound();
-                
-                // Get the label from the input field
-                const label = document.getElementById('workLabel').value || "";
-                addHistoryEntry('Work', workMinutesInput.value, label);
-                
-                // Clear the label for the next session
-                document.getElementById('workLabel').value = "";
-            } else {
-                // Play timer end sound
-                playTimerEndSound();
-                
-                addHistoryEntry(pomodoroSequence === 3 ? 'Long Break' : 'Break', 
-                              pomodoroSequence === 3 ? longBreakMinutesInput.value : breakMinutesInput.value);
+        function switchMode(shouldAddHistory = true) {
+            if (shouldAddHistory) {
+                if (isWorkMode) {
+                    playTimerEndSound();
+                    
+                    const label = document.getElementById('workLabel').value || "";
+                    const actualTimeSpent = Math.floor(elapsedTime / 60);
+                    addHistoryEntry('Work', actualTimeSpent, label);
+                    
+                    document.getElementById('workLabel').value = "";
+                } else {
+                    playTimerEndSound();
+                    
+                    const actualTimeSpent = Math.floor(elapsedTime / 60);
+                    const breakType = pomodoroSequence === 3 ? 'Long Break' : 'Break';
+                    addHistoryEntry(breakType, actualTimeSpent);
+                }
             }
             
             isWorkMode = !isWorkMode;
@@ -475,6 +447,8 @@
                 modeDisplay.textContent = "Work Time";
                 modeDisplay.style.color = "#07efce";
                 document.querySelector('.tomato').className = "tomato work hover-glow";
+                document.getElementById('workLabel').disabled = false;
+                document.getElementById('workLabel').classList.remove('cursor-not-allowed', 'opacity-50');
             } else {
                 if (pomodoroSequence === 3) {
                     timeLeft = longBreakMinutesInput.value * 60;
@@ -487,12 +461,16 @@
                 }
                 modeDisplay.style.color = "#06d9b9";
                 document.querySelector('.tomato').className = "tomato break hover-glow";
+                document.getElementById('workLabel').disabled = true;
+                document.getElementById('workLabel').classList.add('cursor-not-allowed', 'opacity-50');
+                startTimer();
             }
             totalInitialTime = timeLeft;
             updateDisplay(timeLeft);
+            elapsedTime = 0;
+            startTime = null;
         }
 
-        // Updated startTimer function to use Web Worker
         function startTimer() {
             if (!isRunning) {
                 playButtonSound();
@@ -507,10 +485,8 @@
                             timeLeft--;
                             updateDisplay(timeLeft);
                             if (isWorkMode) {
-                                // Update total time spent more accurately
-                                const currentTime = Date.now();
-                                const timeDiff = (currentTime - startTime) / 1000; // in seconds
-                                totalTimeSpent = Math.floor(timeDiff / 60);
+                                elapsedTime = (Date.now() - startTime) / 1000;
+                                totalTimeSpent = Math.floor(elapsedTime / 60);
                                 updateStats();
                             }
                         } else {
@@ -518,16 +494,16 @@
                             isRunning = false;
                             updateButtonStates();
                             
-                            // Timer complete - play end sound
                             playTimerEndSound();
                             
                             if (isWorkMode) {
                                 sessionsCompleted++;
-                                // Add full session time to total time
-                                totalTimeSpent += parseInt(workMinutesInput.value);
+                                const actualTimeSpent = Math.floor(elapsedTime / 60);
+                                totalTimeSpent += actualTimeSpent;
                                 updateStats();
                             }
-                            switchMode();
+                            
+                            switchMode(true);
                         }
                     }
                 };
@@ -541,7 +517,6 @@
             if (startTime) {
                 elapsedTime += (Date.now() - startTime) / 1000;
                 if (isWorkMode) {
-                    // Update total time spent when pausing
                     totalTimeSpent = Math.floor(elapsedTime / 60);
                     updateStats();
                 }
@@ -568,71 +543,61 @@
             isRunning = false;
             updateButtonStates();
             
+            const actualTimeSpent = Math.floor(elapsedTime / 60);
+            
             if (isWorkMode) {
-                // Calculate actual time spent in minutes
-                const actualTimeSpent = Math.floor(elapsedTime / 60);
                 const label = document.getElementById('workLabel').value || "";
                 addHistoryEntry('Work', actualTimeSpent, label);
                 sessionsCompleted++;
-                
-                // Update total time spent with actual time
                 totalTimeSpent += actualTimeSpent;
-                updateStats();
+                document.getElementById('workLabel').value = "";
+            } else {
+                const breakType = pomodoroSequence === 3 ? 'Long Break' : 'Break';
+                addHistoryEntry(breakType, actualTimeSpent);
             }
             
+            updateStats();
             elapsedTime = 0;
-            switchMode();
+            startTime = null;
+            switchMode(false);
         }
 
-        // Bug fix 1: Preserve session stats when clearing history
         function clearHistory() {
-            // Only clear the history array, preserve stats
             sessionHistory = [];
             saveHistory();
             updateHistoryDisplay();
-            // Don't reset sessions completed or total time
         }
 
-        // Export history to CSV
         function exportHistoryToCSV() {
             if (sessionHistory.length === 0) {
                 alert('No sessions to export');
                 return;
             }
             
-            // Create CSV header
             let csvContent = 'Type,Label,Duration (minutes),Start Date,Start Time,End Date,End Time\n';
             
-            // Add each session to CSV
             sessionHistory.forEach(entry => {
                 const startDate = new Date(entry.timestamp);
                 
-                // Calculate end time by adding duration
                 const endDate = new Date(startDate.getTime() + (entry.duration * 60 * 1000));
                 
-                // Format dates for CSV
                 const startDateStr = startDate.toLocaleDateString();
                 const startTimeStr = startDate.toLocaleTimeString();
                 const endDateStr = endDate.toLocaleDateString();
                 const endTimeStr = endDate.toLocaleTimeString();
                 
-                // Escape label content for CSV (replace commas and quotes)
                 const safeLabel = entry.label ? `"${entry.label.replace(/"/g, '""')}"` : '';
                 
-                // Add row to CSV
                 csvContent += `${entry.type},${safeLabel},${entry.duration},${startDateStr},${startTimeStr},${endDateStr},${endTimeStr}\n`;
             });
             
-            // Create download link
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             
-            // Set filename with current date
             const today = new Date();
             const filename = `pomodoro_history_${today.toISOString().split('T')[0]}.csv`;
             
-            // Download file
             link.setAttribute('href', url);
             link.setAttribute('download', filename);
             link.style.visibility = 'hidden';
@@ -641,7 +606,6 @@
             document.body.removeChild(link);
         }
 
-        // Import history from CSV
         function importHistoryFromCSV(file) {
             const reader = new FileReader();
             
@@ -649,45 +613,35 @@
                 const csvData = event.target.result;
                 const lines = csvData.split('\n');
                 
-                // Skip header row
                 if (lines.length <= 1) {
                     alert('CSV file is empty or invalid');
                     return;
                 }
                 
-                // Clear existing history (optional - could also append)
                 if (confirm('Replace existing history with imported data?')) {
                     sessionHistory = [];
                 }
                 
-                // Parse each line (skipping header)
                 for (let i = 1; i < lines.length; i++) {
-                    if (!lines[i].trim()) continue; // Skip empty lines
+                    if (!lines[i].trim()) continue;
                     
                     const columns = parseCSVLine(lines[i]);
                     
                     if (columns.length >= 5) {
-                        // Extract data
                         const type = columns[0];
-                        const label = columns[1].replace(/^"|"$/g, '').replace(/""/g, '"'); // Remove CSV quotes
+                        const label = columns[1].replace(/^"|"$/g, '').replace(/""/g, '"');
                         const duration = parseInt(columns[2]) || 0;
                         
-                        // Parse start date/time
                         let startDateStr = columns[3];
                         let startTimeStr = columns[4];
                         
-                        // Create timestamp from date/time strings
                         const dateParts = startDateStr.split('/');
                         if (dateParts.length === 3) {
-                            // Try to parse date in various formats
                             let startDate;
                             try {
-                                // Try to parse the date
                                 startDate = new Date(`${startDateStr} ${startTimeStr}`);
                                 
-                                // If invalid, try alternative format
                                 if (isNaN(startDate.getTime())) {
-                                    // Try MM/DD/YYYY format
                                     startDate = new Date(`${dateParts[0]}/${dateParts[1]}/${dateParts[2]} ${startTimeStr}`);
                                 }
                             } catch (e) {
@@ -696,7 +650,6 @@
                             }
                             
                             if (!isNaN(startDate.getTime())) {
-                                // Add to history if date parsing succeeded
                                 sessionHistory.push({
                                     type: type,
                                     label: label,
@@ -709,10 +662,8 @@
                     }
                 }
                 
-                // Sort history by timestamp (newest first)
                 sessionHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 
-                // Update display and save
                 updateHistoryDisplay();
                 saveHistory();
                 
@@ -726,7 +677,6 @@
             reader.readAsText(file);
         }
 
-        // Helper function to parse CSV lines properly (handles quoted fields with commas)
         function parseCSVLine(line) {
             const result = [];
             let current = '';
@@ -736,25 +686,20 @@
                 const char = line[i];
                 
                 if (char === '"') {
-                    // Toggle quote mode
                     inQuotes = !inQuotes;
                 } else if (char === ',' && !inQuotes) {
-                    // End of field if comma is outside quotes
                     result.push(current);
                     current = '';
                 } else {
-                    // Add character to current field
                     current += char;
                 }
             }
             
-            // Add the last field
             result.push(current);
             
             return result;
         }
 
-        // Save sound settings when changed
         volumeControl.addEventListener('change', saveSettings);
         muteSound.addEventListener('change', saveSettings);
 
@@ -775,7 +720,6 @@
             if (!isWorkMode && pomodoroSequence === 3) resetTimer();
         });
 
-        // Add event listeners for export/import
         document.getElementById('exportHistory').addEventListener('click', exportHistoryToCSV);
 
         document.getElementById('importFile').addEventListener('change', function(event) {
@@ -783,24 +727,25 @@
             if (file) {
                 importHistoryFromCSV(file);
             }
-            // Clear the input so the same file can be selected again
             this.value = '';
         });
 
-        // Initialize the timer and history
         loadSavedData();
         resetTimer();
-        updateButtonStates(); // Set initial button states
+        updateButtonStates();
         
-        // Add clear history button listener
         document.getElementById('clearHistory').addEventListener('click', clearHistory);
 
-        // Fade-in animation
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
             fadeElements.forEach((element, index) => {
                 element.style.animationDelay = `${0.2 * index}s`;
             });
+            
+            document.getElementById('workLabel').disabled = !isWorkMode;
+            if (!isWorkMode) {
+                document.getElementById('workLabel').classList.add('cursor-not-allowed', 'opacity-50');
+            }
         });
     </script>
 </body>
