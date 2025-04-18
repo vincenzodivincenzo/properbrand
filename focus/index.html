@@ -240,6 +240,20 @@
     </footer>
 
     <script>
+        // Create a Web Worker for accurate timing
+        const timerWorker = new Worker(URL.createObjectURL(new Blob([`
+            let timer;
+            self.onmessage = function(e) {
+                if (e.data === 'start') {
+                    timer = setInterval(() => {
+                        self.postMessage('tick');
+                    }, 1000);
+                } else if (e.data === 'stop') {
+                    clearInterval(timer);
+                }
+            };
+        `], { type: 'text/javascript' })));
+
         const timerDisplay = document.getElementById('timer');
         const startButton = document.getElementById('start');
         const pauseButton = document.getElementById('pause');
@@ -268,6 +282,8 @@
         let pomodoroSequence = 0;
         let totalInitialTime;
         let sessionHistory = [];
+        let startTime; // Track when the timer started
+        let elapsedTime = 0; // Track elapsed time for accurate skipping
 
         // Sound functions
         function playButtonSound() {
@@ -290,7 +306,20 @@
         document.querySelectorAll('button, input[type="checkbox"], input[type="range"]').forEach(element => {
             element.addEventListener('click', playButtonSound);
         });
-        
+
+        // Update button states
+        function updateButtonStates() {
+            if (isRunning) {
+                startButton.disabled = true;
+                startButton.classList.remove('bg-[#07efce]', 'hover:bg-[#06d9b9]');
+                startButton.classList.add('bg-gray-500', 'cursor-not-allowed');
+            } else {
+                startButton.disabled = false;
+                startButton.classList.add('bg-[#07efce]', 'hover:bg-[#06d9b9]');
+                startButton.classList.remove('bg-gray-500', 'cursor-not-allowed');
+            }
+        }
+
         // Check for saved settings and history in localStorage
         function loadSavedData() {
             if (localStorage.getItem('pomodoroSettings')) {
@@ -463,49 +492,61 @@
             updateDisplay(timeLeft);
         }
 
-        // Updated to play button sound when starting timer
+        // Updated startTimer function to use Web Worker
         function startTimer() {
             if (!isRunning) {
                 playButtonSound();
                 isRunning = true;
+                startTime = Date.now();
+                updateButtonStates();
                 
-                timer = setInterval(() => {
-                    if (timeLeft > 0) {
-                        timeLeft--;
-                        updateDisplay(timeLeft);
-                        if (isWorkMode) {
-                            totalTimeSpent = Math.floor(totalTimeSpent + 1/60);
-                            updateStats();
+                timerWorker.postMessage('start');
+                timerWorker.onmessage = function(e) {
+                    if (e.data === 'tick') {
+                        if (timeLeft > 0) {
+                            timeLeft--;
+                            updateDisplay(timeLeft);
+                            if (isWorkMode) {
+                                totalTimeSpent = Math.floor(totalTimeSpent + 1/60);
+                                updateStats();
+                            }
+                        } else {
+                            timerWorker.postMessage('stop');
+                            isRunning = false;
+                            updateButtonStates();
+                            
+                            // Timer complete - play end sound
+                            playTimerEndSound();
+                            
+                            if (isWorkMode) {
+                                sessionsCompleted++;
+                                updateStats();
+                            }
+                            switchMode();
                         }
-                    } else {
-                        clearInterval(timer);
-                        isRunning = false;
-                        
-                        // Timer complete - play end sound
-                        playTimerEndSound();
-                        
-                        if (isWorkMode) {
-                            sessionsCompleted++;
-                            updateStats();
-                        }
-                        switchMode();
                     }
-                }, 1000);
+                };
             }
         }
 
         function pauseTimer() {
-            clearInterval(timer);
+            timerWorker.postMessage('stop');
             isRunning = false;
+            updateButtonStates();
+            if (startTime) {
+                elapsedTime += (Date.now() - startTime) / 1000;
+            }
         }
 
         function resetTimer() {
-            clearInterval(timer);
+            timerWorker.postMessage('stop');
             isRunning = false;
+            updateButtonStates();
             isWorkMode = true;
             pomodoroSequence = 0;
             timeLeft = workMinutesInput.value * 60;
             totalInitialTime = timeLeft;
+            elapsedTime = 0;
             modeDisplay.textContent = "Work Time";
             modeDisplay.style.color = "#07efce";
             document.querySelector('.tomato').className = "tomato work hover-glow";
@@ -513,12 +554,20 @@
         }
 
         function skipSession() {
-            clearInterval(timer);
+            timerWorker.postMessage('stop');
             isRunning = false;
+            updateButtonStates();
+            
             if (isWorkMode) {
+                // Calculate actual time spent in minutes
+                const actualTimeSpent = Math.floor(elapsedTime / 60);
+                const label = document.getElementById('workLabel').value || "";
+                addHistoryEntry('Work', actualTimeSpent, label);
                 sessionsCompleted++;
                 updateStats();
             }
+            
+            elapsedTime = 0;
             switchMode();
         }
 
@@ -728,6 +777,7 @@
         // Initialize the timer and history
         loadSavedData();
         resetTimer();
+        updateButtonStates(); // Set initial button states
         
         // Add clear history button listener
         document.getElementById('clearHistory').addEventListener('click', clearHistory);
