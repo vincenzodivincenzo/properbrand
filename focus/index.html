@@ -184,12 +184,32 @@
                     <!-- History items will be added here -->
                 </div>
             </div>
+            
+            <!-- Sound controls -->
+            <div class="border-t border-[#07efce]/10 pt-6 mt-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-medium">Sound Settings</h3>
+                    <div class="flex items-center">
+                        <label for="volumeControl" class="text-sm text-gray-400 mr-2">Volume</label>
+                        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.7" 
+                               class="w-24 accent-[#07efce]">
+                    </div>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="muteSound" class="mr-2 accent-[#07efce]">
+                    <label for="muteSound" class="text-sm text-gray-400">Mute all sounds</label>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Audio for timer completion -->
-    <audio id="alertSound">
-        <source src="data:audio/mpeg;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAADAAAGhgBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVWqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr///////////////////////////////////////////8AAAA5TEFNRTMuOTlyAm4AAAAALAAAACQgAANAQgAARgAABoZIqI6zAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//sQxAADwAABpAAAACAAADSAAAAETEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=" type="audio/mpeg">
+    <!-- Audio for sounds -->
+    <audio id="buttonClickSound">
+        <source src="button-click.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="timerEndSound">
+        <source src="end-timer.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Footer -->
@@ -214,11 +234,16 @@
         const workMinutesInput = document.getElementById('workMinutes');
         const breakMinutesInput = document.getElementById('breakMinutes');
         const longBreakMinutesInput = document.getElementById('longBreakMinutes');
-        const alertSound = document.getElementById('alertSound');
         const progressBar = document.getElementById('progress');
         const modeDisplay = document.getElementById('modeDisplay');
         const sessionsCount = document.getElementById('sessionsCount');
         const totalTime = document.getElementById('totalTime');
+        
+        // Sound elements
+        const buttonClickSound = document.getElementById('buttonClickSound');
+        const timerEndSound = document.getElementById('timerEndSound');
+        const volumeControl = document.getElementById('volumeControl');
+        const muteSound = document.getElementById('muteSound');
 
         let timer;
         let timeLeft;
@@ -230,6 +255,28 @@
         let totalInitialTime;
         let sessionHistory = [];
 
+        // Sound functions
+        function playButtonSound() {
+            if (!muteSound.checked) {
+                buttonClickSound.volume = parseFloat(volumeControl.value);
+                buttonClickSound.currentTime = 0;
+                buttonClickSound.play();
+            }
+        }
+        
+        function playTimerEndSound() {
+            if (!muteSound.checked) {
+                timerEndSound.volume = parseFloat(volumeControl.value);
+                timerEndSound.currentTime = 0;
+                timerEndSound.play();
+            }
+        }
+        
+        // Add click sound to all buttons
+        document.querySelectorAll('button, input[type="checkbox"], input[type="range"]').forEach(element => {
+            element.addEventListener('click', playButtonSound);
+        });
+        
         // Check for saved settings and history in localStorage
         function loadSavedData() {
             if (localStorage.getItem('pomodoroSettings')) {
@@ -239,6 +286,14 @@
                 longBreakMinutesInput.value = settings.longBreak;
                 totalTimeSpent = settings.totalTime || 0;
                 sessionsCompleted = settings.sessions || 0;
+                
+                // Load sound settings if available
+                if (settings.volume !== undefined) {
+                    volumeControl.value = settings.volume;
+                }
+                if (settings.mute !== undefined) {
+                    muteSound.checked = settings.mute;
+                }
             }
             
             if (localStorage.getItem('pomodoroHistory')) {
@@ -255,7 +310,9 @@
                 break: breakMinutesInput.value,
                 longBreak: longBreakMinutesInput.value,
                 totalTime: totalTimeSpent,
-                sessions: sessionsCompleted
+                sessions: sessionsCompleted,
+                volume: volumeControl.value,
+                mute: muteSound.checked
             };
             localStorage.setItem('pomodoroSettings', JSON.stringify(settings));
         }
@@ -352,6 +409,9 @@
         function switchMode() {
             // Add completed session to history
             if (isWorkMode) {
+                // Play timer end sound
+                playTimerEndSound();
+                
                 // Get the label from the input field
                 const label = document.getElementById('workLabel').value || "";
                 addHistoryEntry('Work', workMinutesInput.value, label);
@@ -359,6 +419,9 @@
                 // Clear the label for the next session
                 document.getElementById('workLabel').value = "";
             } else {
+                // Play timer end sound
+                playTimerEndSound();
+                
                 addHistoryEntry(pomodoroSequence === 3 ? 'Long Break' : 'Break', 
                               pomodoroSequence === 3 ? longBreakMinutesInput.value : breakMinutesInput.value);
             }
@@ -394,13 +457,11 @@
             }
         }
 
-        // Bug fix 2: Add sound notification when timer starts
+        // Updated to play button sound when starting timer
         function startTimer() {
             if (!isRunning) {
+                playButtonSound();
                 isRunning = true;
-                
-                // Play sound when timer starts
-                alertSound.play();
                 
                 // Request notification permission
                 if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
@@ -418,7 +479,10 @@
                     } else {
                         clearInterval(timer);
                         isRunning = false;
-                        alertSound.play();
+                        
+                        // Timer complete - play end sound
+                        playTimerEndSound();
+                        
                         if (isWorkMode) {
                             sessionsCompleted++;
                             updateStats();
@@ -626,6 +690,10 @@
             
             return result;
         }
+
+        // Save sound settings when changed
+        volumeControl.addEventListener('change', saveSettings);
+        muteSound.addEventListener('change', saveSettings);
 
         startButton.addEventListener('click', startTimer);
         pauseButton.addEventListener('click', pauseTimer);
