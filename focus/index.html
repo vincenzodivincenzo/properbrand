@@ -507,7 +507,10 @@
                             timeLeft--;
                             updateDisplay(timeLeft);
                             if (isWorkMode) {
-                                totalTimeSpent = Math.floor(totalTimeSpent + 1/60);
+                                // Update total time spent more accurately
+                                const currentTime = Date.now();
+                                const timeDiff = (currentTime - startTime) / 1000; // in seconds
+                                totalTimeSpent = Math.floor(timeDiff / 60);
                                 updateStats();
                             }
                         } else {
@@ -520,6 +523,8 @@
                             
                             if (isWorkMode) {
                                 sessionsCompleted++;
+                                // Add full session time to total time
+                                totalTimeSpent += parseInt(workMinutesInput.value);
                                 updateStats();
                             }
                             switchMode();
@@ -535,6 +540,11 @@
             updateButtonStates();
             if (startTime) {
                 elapsedTime += (Date.now() - startTime) / 1000;
+                if (isWorkMode) {
+                    // Update total time spent when pausing
+                    totalTimeSpent = Math.floor(elapsedTime / 60);
+                    updateStats();
+                }
             }
         }
 
@@ -564,6 +574,9 @@
                 const label = document.getElementById('workLabel').value || "";
                 addHistoryEntry('Work', actualTimeSpent, label);
                 sessionsCompleted++;
+                
+                // Update total time spent with actual time
+                totalTimeSpent += actualTimeSpent;
                 updateStats();
             }
             
