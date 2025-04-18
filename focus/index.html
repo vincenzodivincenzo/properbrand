@@ -13,9 +13,11 @@
         /* Only adding styles not covered in style.css */
         .tomato-container {
             position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 20px;
+            width: 80px;
+            height: 80px;
+            margin: 0;
+            display: inline-block;
+            vertical-align: middle;
         }
 
         .tomato {
@@ -28,15 +30,12 @@
             box-shadow: 0 0 20px rgba(7, 239, 206, 0.3);
         }
 
-        .leaf {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            width: 30px;
-            height: 40px;
-            background-color: #06d9b9;
-            border-radius: 0 50% 0 50%;
-            transform: translateX(-50%) rotate(45deg);
+        .tomato.work {
+            background: linear-gradient(135deg, #07efce 0%, #06d9b9 100%);
+        }
+
+        .tomato.break {
+            background: linear-gradient(135deg, #06d9b9 0%, #07efce 100%);
         }
 
         .progress-bar {
@@ -86,8 +85,8 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="max-w-6xl mx-auto px-4 pb-20">
-        <!-- Updated Title and Subtitle with Fixed Font -->
+    <div class="max-w-7xl mx-auto px-4 pb-20">
+        <!-- Title and Subtitle Section -->
         <div class="text-center max-w-2xl mx-auto mb-12 fade-in">
             <h1 class="text-4xl md:text-5xl font-medium mb-6 text-white">
                 Unlock <span class="font-playfair italic text-[#07efce]">Proper</span> Focus
@@ -97,109 +96,122 @@
             </p>
         </div>
 
-        <!-- Pomodoro Timer Card -->
-        <div class="max-w-lg mx-auto bg-[#1a1a1a] rounded-2xl p-8 border border-[#07efce]/20 shadow-lg fade-in">
-            <div class="tomato-container">
-                <div class="tomato hover-glow">
-                    <div class="leaf"></div>
-                </div>
-            </div>
-            
-            <div id="modeDisplay" class="text-[#07efce] text-xl font-medium mb-2">Work Time</div>
-            <div id="timer" class="text-5xl font-bold my-4">25:00</div>
-            
-            <!-- Add Work Label Input Field -->
-            <div class="mb-4">
-                <label for="workLabel" class="text-sm text-gray-400 mb-1">Current Task</label>
-                <input type="text" id="workLabel" placeholder="What are you working on?" 
-                       class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-white focus:border-[#07efce] focus:outline-none">
-            </div>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress"></div>
-            </div>
+        <!-- Tool Container -->
+        <div class="flex justify-center">
+            <!-- Unified Card for Desktop -->
+            <div class="bg-[#1a1a1a] rounded-2xl border border-[#07efce]/20 shadow-lg fade-in">
+                <!-- Mobile: Stack both sections, Desktop: Side by side -->
+                <div class="flex flex-col lg:flex-row lg:divide-x lg:divide-[#07efce]/10">
+                    <!-- Timer Section -->
+                    <div class="p-8 lg:w-1/2">
+                        <!-- Timer and Pomodoro Section -->
+                        <div class="flex items-center gap-6 mb-4">
+                            <div class="flex-1">
+                                <div id="modeDisplay" class="text-[#07efce] text-xl font-medium mb-2">Work Time</div>
+                                <div id="timer" class="text-5xl font-bold">25:00</div>
+                            </div>
+                            <div class="tomato-container">
+                                <div class="tomato work hover-glow">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add Work Label Input Field -->
+                        <div class="mb-4">
+                            <label for="workLabel" class="text-sm text-gray-400 mb-1">Current Task</label>
+                            <input type="text" id="workLabel" placeholder="What are you working on?" 
+                                   class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-white focus:border-[#07efce] focus:outline-none">
+                        </div>
+                        
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress"></div>
+                        </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-                <button id="start" class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
-                    Start
-                </button>
-                <button id="pause" class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
-                    Pause
-                </button>
-                <button id="reset" class="px-4 py-3 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
-                    Reset
-                </button>
-                <button id="skip" class="px-4 py-3 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
-                    Skip
-                </button>
-            </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                            <button id="start" class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
+                                Start
+                            </button>
+                            <button id="pause" class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
+                                Pause
+                            </button>
+                            <button id="reset" class="px-4 py-3 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                                Reset
+                            </button>
+                            <button id="skip" class="px-4 py-3 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                                Skip
+                            </button>
+                        </div>
 
-            <div class="grid grid-cols-3 gap-4 mb-8">
-                <div class="flex flex-col">
-                    <label for="workMinutes" class="text-sm text-gray-400 mb-1">Work (min)</label>
-                    <input type="number" id="workMinutes" min="1" max="60" value="25" 
-                           class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
-                </div>
-                <div class="flex flex-col">
-                    <label for="breakMinutes" class="text-sm text-gray-400 mb-1">Break (min)</label>
-                    <input type="number" id="breakMinutes" min="1" max="30" value="5" 
-                           class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
-                </div>
-                <div class="flex flex-col">
-                    <label for="longBreakMinutes" class="text-sm text-gray-400 mb-1">Long Break (min)</label>
-                    <input type="number" id="longBreakMinutes" min="1" max="60" value="15" 
-                           class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
-                </div>
-            </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <label for="workMinutes" class="text-sm text-gray-400 mb-1">Work (min)</label>
+                                <input type="number" id="workMinutes" min="1" max="60" value="25" 
+                                       class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="breakMinutes" class="text-sm text-gray-400 mb-1">Break (min)</label>
+                                <input type="number" id="breakMinutes" min="1" max="30" value="5" 
+                                       class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="longBreakMinutes" class="text-sm text-gray-400 mb-1">Long Break (min)</label>
+                                <input type="number" id="longBreakMinutes" min="1" max="60" value="15" 
+                                       class="w-full px-3 py-2 bg-[#161616] border border-[#07efce]/30 rounded-lg text-center text-white focus:border-[#07efce] focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="border-t border-[#07efce]/10 pt-6 mb-6">
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
-                        <p class="text-sm text-gray-400">Sessions Completed</p>
-                        <p id="sessionsCount" class="text-2xl font-bold text-[#07efce]">0</p>
-                    </div>
-                    <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
-                        <p class="text-sm text-gray-400">Total Focus Time</p>
-                        <p><span id="totalTime" class="text-2xl font-bold text-[#07efce]">0</span> <span class="text-gray-400">min</span></p>
-                    </div>
-                </div>
-            </div>
+                    <!-- Stats and History Section -->
+                    <div class="border-t border-[#07efce]/10 lg:border-t-0 p-8 lg:w-1/2">
+                        <div class="grid grid-cols-2 gap-6 mb-6">
+                            <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
+                                <p class="text-sm text-gray-400">Sessions Completed</p>
+                                <p id="sessionsCount" class="text-2xl font-bold text-[#07efce]">0</p>
+                            </div>
+                            <div class="bg-[#161616]/60 p-4 rounded-xl border border-[#07efce]/10">
+                                <p class="text-sm text-gray-400">Total Focus Time</p>
+                                <p><span id="totalTime" class="text-2xl font-bold text-[#07efce]">0</span> <span class="text-gray-400">min</span></p>
+                            </div>
+                        </div>
 
-            <!-- Updated History Section with Import/Export -->
-            <div class="border-t border-[#07efce]/10 pt-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-medium">Session History</h3>
-                    <div class="flex gap-2">
-                        <button id="exportHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
-                            Export CSV
-                        </button>
-                        <label for="importFile" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce] cursor-pointer">
-                            Import CSV
-                        </label>
-                        <input type="file" id="importFile" accept=".csv" class="hidden">
-                        <button id="clearHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
-                            Clear History
-                        </button>
+                        <!-- History Section -->
+                        <div class="border-t border-[#07efce]/10 pt-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-medium">Session History</h3>
+                                <div class="flex gap-2">
+                                    <button id="exportHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                                        Export CSV
+                                    </button>
+                                    <label for="importFile" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce] cursor-pointer">
+                                        Import CSV
+                                    </label>
+                                    <input type="file" id="importFile" accept=".csv" class="hidden">
+                                    <button id="clearHistory" class="px-3 py-1 text-xs font-medium bg-[#161616] border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                                        Clear History
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="history-list rounded-xl border border-[#07efce]/10 bg-[#161616]/60 p-4 h-[calc(100vh-600px)] min-h-[200px] overflow-y-auto" id="historyList">
+                                <!-- History items will be added here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Sound controls -->
+                        <div class="border-t border-[#07efce]/10 pt-6 mt-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-medium">Sound Settings</h3>
+                                <div class="flex items-center">
+                                    <label for="volumeControl" class="text-sm text-gray-400 mr-2">Volume</label>
+                                    <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.7" 
+                                           class="w-24 accent-[#07efce]">
+                                </div>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <input type="checkbox" id="muteSound" class="mr-2 accent-[#07efce]">
+                                <label for="muteSound" class="text-sm text-gray-400">Mute all sounds</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="history-list rounded-xl border border-[#07efce]/10 bg-[#161616]/60 p-4" id="historyList">
-                    <!-- History items will be added here -->
-                </div>
-            </div>
-            
-            <!-- Sound controls -->
-            <div class="border-t border-[#07efce]/10 pt-6 mt-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-medium">Sound Settings</h3>
-                    <div class="flex items-center">
-                        <label for="volumeControl" class="text-sm text-gray-400 mr-2">Volume</label>
-                        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.7" 
-                               class="w-24 accent-[#07efce]">
-                    </div>
-                </div>
-                <div class="flex items-center mb-2">
-                    <input type="checkbox" id="muteSound" class="mr-2 accent-[#07efce]">
-                    <label for="muteSound" class="text-sm text-gray-400">Mute all sounds</label>
                 </div>
             </div>
         </div>
@@ -433,7 +445,7 @@
                 timeLeft = workMinutesInput.value * 60;
                 modeDisplay.textContent = "Work Time";
                 modeDisplay.style.color = "#07efce";
-                document.querySelector('.tomato').style.background = "linear-gradient(135deg, #07efce 0%, #06d9b9 100%)";
+                document.querySelector('.tomato').className = "tomato work hover-glow";
             } else {
                 if (pomodoroSequence === 3) {
                     timeLeft = longBreakMinutesInput.value * 60;
@@ -445,18 +457,10 @@
                     pomodoroSequence++;
                 }
                 modeDisplay.style.color = "#06d9b9";
-                document.querySelector('.tomato').style.background = "linear-gradient(135deg, #06d9b9 0%, #07efce 100%)";
+                document.querySelector('.tomato').className = "tomato break hover-glow";
             }
             totalInitialTime = timeLeft;
             updateDisplay(timeLeft);
-            
-            // Notify if browser supports it
-            if ("Notification" in window && Notification.permission === "granted") {
-                new Notification(modeDisplay.textContent, {
-                    body: `Time to ${isWorkMode ? 'focus' : 'take a break'}!`,
-                    icon: 'favicon.ico'
-                });
-            }
         }
 
         // Updated to play button sound when starting timer
@@ -464,11 +468,6 @@
             if (!isRunning) {
                 playButtonSound();
                 isRunning = true;
-                
-                // Request notification permission
-                if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
-                    Notification.requestPermission();
-                }
                 
                 timer = setInterval(() => {
                     if (timeLeft > 0) {
@@ -509,7 +508,7 @@
             totalInitialTime = timeLeft;
             modeDisplay.textContent = "Work Time";
             modeDisplay.style.color = "#07efce";
-            document.querySelector('.tomato').style.background = "linear-gradient(135deg, #07efce 0%, #06d9b9 100%)";
+            document.querySelector('.tomato').className = "tomato work hover-glow";
             updateDisplay(timeLeft);
         }
 
