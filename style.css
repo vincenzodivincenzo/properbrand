@@ -3,10 +3,21 @@ body {
     background-color: #161616;
     color: #f3f4f6;
 }
+
+/* Scrollbar hiding utility */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 .italic-text {
     font-family: 'Playfair Display', serif;
     font-style: italic;
 }
+
 .gradient-card {
     background: linear-gradient(135deg, #07efce 0%, #06d9b9 100%);
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
