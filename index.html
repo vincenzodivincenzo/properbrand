@@ -5,9 +5,12 @@
     <meta name="description" content="Proper Brand helps founders turn their LinkedIn profile into their #1 lead source. Discover our positioning systems, content frameworks, and client acquisition playbooks.">
     <meta property="og:title" content="Proper Brand | LinkedIn Lead Generation for Founders">
     <meta property="og:description" content="Turn your founder brand into your #1 lead source. Book your free audit today.">
-    <meta property="og:image" content="https://properbrand.com/og-cover.jpg">
-    <meta property="og:url" content="https://properbrand.com">
+    <meta property="og:image" content="https://properbrand.co/og-cover.jpg">
+    <meta property="og:url" content="https://properbrand.co">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Proper Brand">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://properbrand.co/og-cover.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proper Brand - LinkedIn Lead Generation</title>
 
@@ -20,10 +23,25 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link rel="preload" href="style.css" as="style">
     <link rel="stylesheet" href="style.css">
 
-    <script>
+    <style>
+        /* Critical CSS inlined for faster LCP */
+        .hero-content { opacity: 1; transform: translateY(0); }
+        .gradient-card { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1px solid rgba(7, 239, 206, 0.2);
+        }
+        /* Optimize font loading */
+        .font-medium { font-display: swap; }
+        /* Reduce layout shifts */
+        img { height: auto; width: auto; }
+    </style>
+
+    <script defer>
       !function () {
         var reb2b = window.reb2b = window.reb2b || [];
         if (reb2b.invoked) return;
@@ -58,15 +76,15 @@
       }();
     </script>
 
-    <link rel="canonical" href="https://properbrand.com/">
+    <link rel="canonical" href="https://properbrand.co/">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Proper Brand",
-      "url": "https://properbrand.com",
-      "logo": "https://properbrand.com/logo.png",
+      "url": "https://properbrand.co",
+      "description": "Turn your founder brand into your #1 lead source with LinkedIn lead generation and content strategy",
       "sameAs": [
         "https://www.linkedin.com/in/divincenzo",
         "https://x.com/vincenzolearns"
@@ -85,19 +103,19 @@
     <section class="relative px-4 pt-16 pb-20">
         <div class="max-w-6xl mx-auto">
 
-            <div class="w-full flex flex-wrap justify-between items-center mb-24 fade-in" style="animation-delay: 0.2s">
+            <div class="w-full flex flex-wrap justify-between items-center mb-24 hero-content">
                 <div class="flex items-center gap-2">
                     <div class="w-6 h-6 bg-[#07efce] rounded-full"></div>
                     <span class="text-xl font-medium text-white">Proper Brand</span>
                 </div>
                 <div class="flex gap-3">
-                    <a href="#client-results" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                    <a href="#client-results" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]" aria-label="View recent client work">
                         Recent work
                     </a>
-                    <a href="#proper-system" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]">
+                    <a href="#proper-system" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]" aria-label="Learn about the Proper System">
                         The Proper System
                     </a>
-                    <a href="https://cal.com/divincenzo/30min" class="px-4 py-2 text-sm font-medium text-white bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow">
+                    <a href="https://cal.com/divincenzo/30min" class="px-4 py-2 text-sm font-medium text-white bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow" aria-label="Schedule consultation">
                         Start now
                     </a>
                 </div>
@@ -105,7 +123,7 @@
 
             <div class="flex flex-col lg:flex-row justify-between items-start gap-12">
 
-                <div class="flex-1 fade-in" style="animation-delay: 0.4s">
+                <div class="flex-1 hero-content">
                     <h1 class="text-6xl font-medium leading-tight tracking-tight mb-6 text-white">
                         Turn your founder brand into your 
                         <span class="italic-text text-[#07efce]">#1 lead source</span>
@@ -115,7 +133,7 @@
                     </p>
                 </div>
 
-                <div class="w-full lg:w-96 fade-in" style="animation-delay: 0.6s">
+                <div class="w-full lg:w-96 hero-content">
                     <div class="gradient-card text-white p-8 rounded-2xl relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
                         <div class="relative">
@@ -131,7 +149,7 @@
                             <p class="text-gray-400 mb-6">
                                 For busy founders who don't have time to write.
                             </p>
-                            <a href="https://cal.com/divincenzo/audit" class="block w-full bg-white text-[#161616] py-4 rounded-lg font-medium text-center hover:bg-gray-100 transition-all hover-glow">
+                            <a href="https://cal.com/divincenzo/audit" class="block w-full bg-white text-[#161616] py-4 rounded-lg font-medium text-center hover:bg-gray-100 transition-all hover-glow" aria-label="Get free LinkedIn strategy audit">
                                 Get your free strategy
                             </a>
                             
@@ -141,7 +159,7 @@
                                         <div class="w-12 h-12 bg-[#161616]/80 rounded-full border border-[#07efce]/30"></div>
                                         <div>
                                             <p class="text-sm text-[#161616]">See my proven approach</p>
-                                            <a href="#client-results" class="text-sm text-[#161616] font-medium">Recent client results →</a>
+                                            <a href="#client-results" class="text-sm text-[#161616] font-medium" aria-label="View recent client results">Recent client results →</a>
                                         </div>
                                     </div>
                                 </div>
@@ -565,22 +583,37 @@
             </div>
             
             <div class="mx-auto w-full max-w-4xl overflow-hidden">
-                <div id="my-cal-inline" class="w-full h-[700px] overflow-hidden"></div>
+                <div id="cal-placeholder" class="w-full h-[700px] bg-[#161616] border border-[#07efce]/20 rounded-xl flex items-center justify-center cursor-pointer" onclick="loadCalendar()">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-[#07efce]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#07efce]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-medium text-white mb-2">Click to load calendar</h3>
+                        <p class="text-gray-400">Schedule your free audit call</p>
+                    </div>
+                </div>
+                <div id="my-cal-inline" class="w-full h-[700px] overflow-hidden hidden"></div>
                 <script type="text/javascript">
-                  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-                Cal("init", "audit", {origin:"https://cal.com"});
-                  Cal.ns.audit("inline", {
-                    elementOrSelector:"#my-cal-inline",
-                    config: {
-                    layout: "month_view",
-                    width: "100%",
-                    height: "100%"
-                    },
-                    calLink: "divincenzo/audit"
-                });
-                  Cal.ns.audit("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+                  function loadCalendar() {
+                    document.getElementById('cal-placeholder').style.display = 'none';
+                    document.getElementById('my-cal-inline').classList.remove('hidden');
+                    
+                    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+                    Cal("init", "audit", {origin:"https://cal.com"});
+                    Cal.ns.audit("inline", {
+                      elementOrSelector:"#my-cal-inline",
+                      config: {
+                      layout: "month_view",
+                      width: "100%",
+                      height: "100%"
+                      },
+                      calLink: "divincenzo/audit"
+                    });
+                    Cal.ns.audit("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+                  }
                 </script>
-
             </div>
         </div>
     </section>
@@ -687,6 +720,20 @@
             } else {
                 dropdown.classList.add('hidden');
             }
+        }
+
+        // Performance monitoring (deferred)
+        if (window.requestIdleCallback) {
+            requestIdleCallback(() => {
+                // Monitor Core Web Vitals
+                if ('PerformanceObserver' in window) {
+                    new PerformanceObserver((entryList) => {
+                        for (const entry of entryList.getEntries()) {
+                            console.log(`${entry.name}: ${entry.value}`);
+                        }
+                    }).observe({entryTypes: ['measure', 'navigation']});
+                }
+            });
         }
     </script>
 </body>
