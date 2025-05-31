@@ -97,3 +97,19 @@ body {
       padding: 0.5rem 0.5rem;
     }
   }
+
+/* Fix case studies scroll behavior */
+.touch-pan-x {
+    touch-action: pan-x;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.touch-pan-x::-webkit-scrollbar {
+    display: none;
+}
+
+/* Prevent vertical scroll issues */
+.overflow-y-hidden {
+    overflow-y: hidden !important;
+}
