@@ -156,10 +156,14 @@
                             <div class="mt-6 border-t border-[#07efce]/30 pt-6">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-[#161616]/80 rounded-full border border-[#07efce]/30"></div>
+                                        <div class="w-12 h-12 bg-[#07efce]/10 rounded-full border border-[#07efce]/30 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#07efce]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                            </svg>
+                                        </div>
                                         <div>
-                                            <p class="text-sm text-[#161616]">See my proven approach</p>
-                                            <a href="#client-results" class="text-sm text-[#161616] font-medium" aria-label="View recent client results">Recent client results →</a>
+                                            <p class="text-sm text-gray-300">See my proven approach</p>
+                                            <a href="#client-results" class="text-sm text-white font-medium hover:text-[#07efce] transition-colors" aria-label="View recent client results">Recent client results →</a>
                                         </div>
                                     </div>
                                 </div>
@@ -347,7 +351,7 @@
                 </p>
             </div>
             
-            <div class="flex gap-8 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide">
+            <div class="flex gap-8 overflow-x-auto overflow-y-hidden pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide touch-pan-x">
                 <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 0.2s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
@@ -583,36 +587,20 @@
             </div>
             
             <div class="mx-auto w-full max-w-4xl overflow-hidden">
-                <div id="cal-placeholder" class="w-full h-[700px] bg-[#161616] border border-[#07efce]/20 rounded-xl flex items-center justify-center cursor-pointer" onclick="loadCalendar()">
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-[#07efce]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#07efce]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-medium text-white mb-2">Click to load calendar</h3>
-                        <p class="text-gray-400">Schedule your free audit call</p>
-                    </div>
-                </div>
-                <div id="my-cal-inline" class="w-full h-[700px] overflow-hidden hidden"></div>
+                <div id="my-cal-inline" class="w-full h-[700px] overflow-hidden"></div>
                 <script type="text/javascript">
-                  function loadCalendar() {
-                    document.getElementById('cal-placeholder').style.display = 'none';
-                    document.getElementById('my-cal-inline').classList.remove('hidden');
-                    
-                    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-                    Cal("init", "audit", {origin:"https://cal.com"});
-                    Cal.ns.audit("inline", {
-                      elementOrSelector:"#my-cal-inline",
-                      config: {
-                      layout: "month_view",
-                      width: "100%",
-                      height: "100%"
-                      },
-                      calLink: "divincenzo/audit"
-                    });
-                    Cal.ns.audit("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-                  }
+                  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+                Cal("init", "audit", {origin:"https://cal.com"});
+                  Cal.ns.audit("inline", {
+                    elementOrSelector:"#my-cal-inline",
+                    config: {
+                    layout: "month_view",
+                    width: "100%",
+                    height: "100%"
+                    },
+                    calLink: "divincenzo/audit"
+                });
+                  Cal.ns.audit("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
                 </script>
             </div>
         </div>
