@@ -1,7 +1,9 @@
+/* Critical styles first */
 body { 
     font-family: 'Figtree', sans-serif;
     background-color: #161616;
     color: #f3f4f6;
+    font-display: swap;
 }
 
 /* Scrollbar hiding utility */
@@ -16,48 +18,44 @@ body {
 .italic-text {
     font-family: 'Playfair Display', serif;
     font-style: italic;
+    font-display: swap;
 }
 
+/* Optimized interactive elements */
 .gradient-card {
     background: linear-gradient(135deg, #07efce 0%, #06d9b9 100%);
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
+    will-change: transform;
 }
-.gradient-card:hover {
-    transform: translateY(-5px);
-}
+
 .feature-card {
-    transition: all 0.3s ease;
     background: #1a1a1a;
     color: #f3f4f6;
+    transition: transform 0.2s ease;
+    will-change: transform;
 }
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+.feature-card:hover,
+.gradient-card:hover {
+    transform: translateY(-3px);
 }
-.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.8s ease forwards;
-}
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.6s ease;
+    transition: all 0.4s ease;
 }
+
 .animate-on-scroll.visible {
     opacity: 1;
     transform: translateY(0);
 }
+
 .hover-glow:hover {
-    box-shadow: 0 0 20px rgba(7, 239, 206, 0.3);
+    box-shadow: 0 0 15px rgba(7, 239, 206, 0.3);
 }
+
 .highlight-section {
     background: #161616;
 }
@@ -65,10 +63,8 @@ body {
 @media (max-width: 768px) {
     /* Navigation container */
     .w-full.flex.flex-wrap.justify-between.items-center.mb-24 {
-      display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
       margin-bottom: 2rem;
     }
     
@@ -80,8 +76,6 @@ body {
     
     /* Button container - keep horizontal */
     .w-full.flex.flex-wrap.justify-between.items-center.mb-24 .flex.gap-3 {
-      display: flex;
-      flex-direction: row;
       justify-content: center;
       width: 100%;
       gap: 0.5rem !important;
@@ -91,7 +85,6 @@ body {
     .w-full.flex.flex-wrap.justify-between.items-center.mb-24 .flex.gap-3 a {
       font-size: 0.75rem;
       padding: 0.5rem 0.75rem;
-      white-space: nowrap;
       flex: 1;
       text-align: center;
     }
