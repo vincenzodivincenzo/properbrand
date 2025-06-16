@@ -1,0 +1,23 @@
+{
+  "name": "Proper Brand",
+  "short_name": "ProperBrand",
+  "description": "Turn your founder brand into your #1 lead source",
+  "icons": [
+    {
+      "src": "assets/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#161616",
+  "background_color": "#161616",
+  "display": "standalone",
+  "start_url": "."
+}

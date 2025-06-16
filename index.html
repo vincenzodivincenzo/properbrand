@@ -14,31 +14,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proper Brand - LinkedIn Lead Generation</title>
 
-    <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MWMZLBDB');
-    </script>
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="assets/site.webmanifest">
+    <meta name="theme-color" content="#161616">
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-    <link rel="preload" href="style.css" as="style">
     <link rel="stylesheet" href="style.css">
 
     <style>
         /* Critical CSS inlined for faster LCP */
-        .hero-content { opacity: 1; transform: translateY(0); }
+        body { 
+            font-family: 'Figtree', sans-serif;
+            background-color: #161616;
+            color: #f3f4f6;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .hero-content { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
         .gradient-card { 
             background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
             border: 1px solid rgba(7, 239, 206, 0.2);
         }
         /* Optimize font loading */
-        .font-medium { font-display: swap; }
+        .font-medium { 
+            font-display: swap; 
+            font-weight: 500;
+        }
         /* Reduce layout shifts */
-        img { height: auto; width: auto; }
+        img { 
+            height: auto; 
+            width: auto; 
+            max-width: 100%;
+        }
+        /* Smooth animations */
+        .hover-glow {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(7, 239, 206, 0);
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(7, 239, 206, 0.3);
+        }
+        /* Focus mode button */
+        .italic-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+        /* Optimize animations */
+        @media (prefers-reduced-motion: reduce) {
+            .hover-glow,
+            .gradient-card,
+            .feature-card {
+                transition: none;
+            }
+        }
+        .case-studies-container {
+            align-items: flex-start;
+        }
+        .case-study-card {
+            min-height: 420px;
+        }
     </style>
 
     <script defer>
@@ -115,7 +168,10 @@
                     <a href="#proper-system" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]" aria-label="Learn about the Proper System">
                         The Proper System
                     </a>
-                    <a href="https://cal.com/divincenzo/30min" class="px-4 py-2 text-sm font-medium text-white bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow" aria-label="Schedule consultation">
+                    <a href="/focus/" class="px-4 py-2 text-sm italic-text bg-[#222222] text-white border border-[#07efce]/20 rounded-lg hover:bg-[#333] transition-all" aria-label="Enter focus mode">
+                        Focus
+                    </a>
+                    <a href="https://cal.com/divincenzo/30min" class="px-4 py-2 text-sm font-medium text-[#111] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow" aria-label="Schedule consultation">
                         Start now
                     </a>
                 </div>
@@ -139,8 +195,8 @@
                         <div class="relative">
                             <div class="bg-[#161616]/80 backdrop-blur-sm text-[#07efce] text-xs px-4 py-1 rounded-full inline-flex items-center gap-2 mb-20 border border-[#07efce]/30">
                                 <div class="w-5 h-5 bg-[#07efce]/20 rounded-full flex items-center justify-center relative">
-                                    <div class="absolute inset-0 rounded-full bg-[#07efce]/30 animate-ping opacity-75" style="animation-duration: 3s;"></div>
-                                    <div class="w-3 h-3 bg-[#07efce] rounded-full shadow-[0_0_10px_#07efce]"></div>
+                                    <div class="absolute inset-0 rounded-full bg-[#07efce]/30 animate-ping opacity-75"></div>
+                                    <div id="glow-dot" class="w-3 h-3 rounded-full" style="background-color: #07efce !important; display: block !important; width: 12px !important; height: 12px !important;"></div>
                                 </div>
                                 <span>Start generating leads</span>
                             </div>
@@ -351,8 +407,8 @@
                 </p>
             </div>
             
-            <div class="flex gap-8 overflow-x-auto overflow-y-hidden pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide touch-pan-x">
-                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 0.2s">
+            <div class="flex gap-8 overflow-x-auto overflow-y-visible pb-4 scroll-smooth snap-x snap-mandatory scrollbar-hide touch-pan-x case-studies-container">
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 0.2s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
                             <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
@@ -386,8 +442,45 @@
                         </div>
                     </div>
                 </article>
-                
-                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 0.4s">
+
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 0.4s">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
+                            <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-white">Business Coach</h3>
+                            <p class="text-sm text-gray-400">Education & Coaching</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-2">
+                        Generated 200 education applicants and secured $20k/mo in additional revenue within 30 days, all while maintaining 93% profit margins.
+                    </p>
+                    <div class="mb-4 flex flex-wrap gap-2">
+                        <span class="inline-block px-2 py-1 bg-[#07efce]/10 text-[#07efce] text-xs rounded-md">$20K/mo Revenue</span>
+                        <span class="inline-block px-2 py-1 bg-[#07efce]/10 text-[#07efce] text-xs rounded-md">200+ Applicants</span>
+                        <span class="inline-block px-2 py-1 bg-[#07efce]/10 text-[#07efce] text-xs rounded-md">93% Margins</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "From $4k to $20k monthly revenue in just 30 days, without spending on ads or sending cold DMs."
+                    </p>
+                    <div class="relative group">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case2')">
+                            View more 
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="case2" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                            <p class="mb-3"><strong>Challenge:</strong> Scale an education program from $4k to $20k monthly revenue while maintaining high profit margins.</p>
+                            <p class="mb-3"><strong>Approach:</strong> Implemented a full-stack acquisition system focusing on organic content, strategic positioning, and optimized offer structure.</p>
+                            <p class="mb-3"><strong>Results:</strong> 200+ applications received, $20k additional monthly revenue, 93% profit margins maintained, 1.5M Twitter impressions, 4,900+ new followers across platforms.</p>
+                            <p><strong>Highlight:</strong> "Generated 200 education applicants and secured $20k/mo in additional revenue within 30 days, all while maintaining 93% profit margins."</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 0.6s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
                             <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
@@ -409,13 +502,13 @@
                         "Her inbox started filling with local brokers who asked to collaborate."
                     </p>
                     <div class="relative group">
-                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case2')">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case3')">
                             View more 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div id="case2" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                        <div id="case3" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
                             <p class="mb-3"><strong>Challenge:</strong> Needed local visibility and strategic positioning on LinkedIn to attract real estate brokers and collaborators.</p>
                             <p class="mb-3"><strong>Approach:</strong> Built a full-stack acquisition funnel using personalized, industry-relevant content, local targeting, and strategic outreach.</p>
                             <p class="mb-3"><strong>Results:</strong> 10+ broker partnerships unlocked, Inbound collaboration requests from local brokers, Clear visibility boost in her territory.</p>
@@ -423,8 +516,8 @@
                         </div>
                     </div>
                 </article>
-                
-                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 0.6s">
+
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 0.8s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
                             <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
@@ -446,13 +539,13 @@
                         "Positioned her so well that founders started referencing her posts before even booking a call."
                     </p>
                     <div class="relative group">
-                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case3')">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case4')">
                             View more 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div id="case3" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                        <div id="case4" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
                             <p class="mb-3"><strong>Challenge:</strong> Sought to become a top authority in the Italian branding space while increasing high-ticket lead flow.</p>
                             <p class="mb-3"><strong>Approach:</strong> Delivered a high-frequency strategy mixing educational, narrative, and growth content. Focused on positioning and conversion.</p>
                             <p class="mb-3"><strong>Results:</strong> 10+ high-ticket clients closed, Collaboration with tier-one founders, Multiple viral posts (40K+ views), 3+ podcast/interview invitations.</p>
@@ -461,7 +554,44 @@
                     </div>
                 </article>
 
-                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 0.8s">
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 1.0s">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
+                            <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-white">Web3 Influencer</h3>
+                            <p class="text-sm text-gray-400">Crypto / Content Creation</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-2">
+                        Grew from 46k to 90k+ followers in 3 months while securing multiple sponsorship deals through strategic crypto content.
+                    </p>
+                    <div class="mb-4 flex flex-wrap gap-2">
+                        <span class="inline-block px-2 py-1 bg-[#07efce]/10 text-[#07efce] text-xs rounded-md">44K+ Followers</span>
+                        <span class="inline-block px-2 py-1 bg-[#07efce]/10 text-[#07efce] text-xs rounded-md">40M+ Impressions</span>
+                        <span class="inline-block px-2 py-1 bg-[#07efce]/10 text-[#07efce] text-xs rounded-md">Multiple Sponsorships</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "We almost hit 300k profile visits and crossed 40M impressions in just 3 months."
+                    </p>
+                    <div class="relative group">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case5')">
+                            View more 
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="case5" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                            <p class="mb-3"><strong>Challenge:</strong> Had potential for growth but lacked time to focus on brand development while maintaining quality content in the competitive crypto space.</p>
+                            <p class="mb-3"><strong>Approach:</strong> Implemented beginner-friendly crypto content strategy focused on educational, clear content designed to build trust and authority.</p>
+                            <p class="mb-3"><strong>Results:</strong> 46k to 90k+ followers in 3 months, 40M+ impressions total, 25M+ impressions in first 4 weeks (135% increase), 300k profile visits, multiple sponsorship deals closed.</p>
+                            <p><strong>Highlight:</strong> "On February 12 alone, they hit nearly 2 million impressions and picked up 2k+ new followers."</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 1.2s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
                             <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
@@ -483,13 +613,13 @@
                         "Even after we stopped working, the content kept converting."
                     </p>
                     <div class="relative group">
-                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case4')">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case6')">
                             View more 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div id="case4" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                        <div id="case6" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
                             <p class="mb-3"><strong>Challenge:</strong> Needed to solidify thought leadership in a saturated industry and generate targeted visibility fast.</p>
                             <p class="mb-3"><strong>Approach:</strong> Rolled out high-authority content covering production systems, client success, and insider insights.</p>
                             <p class="mb-3"><strong>Results:</strong> Boost in profile engagement within weeks, Audience quality and reach improved, Posts continued converting well beyond the campaign.</p>
@@ -498,7 +628,7 @@
                     </div>
                 </article>
 
-                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 1.0s">
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 1.4s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
                             <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
@@ -520,13 +650,13 @@
                         "From flatlined LinkedIn to attracting investors in less than 30 days."
                     </p>
                     <div class="relative group">
-                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case5')">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case7')">
                             View more 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div id="case5" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                        <div id="case7" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
                             <p class="mb-3"><strong>Challenge:</strong> Recover visibility and positioning after failed agency campaigns and attract investment deal flow.</p>
                             <p class="mb-3"><strong>Approach:</strong> Rebuilt authority through a strategic narrative focused on ecommerce turnarounds, acquisitions, and leadership.</p>
                             <p class="mb-3"><strong>Results:</strong> Recognized by industry peers and investors, At least one 7-fig investment opportunity closed, Profile performance and follower quality improved significantly.</p>
@@ -535,7 +665,7 @@
                     </div>
                 </article>
 
-                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start" style="animation-delay: 1.2s">
+                <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 1.6s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
                             <div class="w-8 h-8 bg-[#161616] rounded-full border border-[#07efce]/30"></div>
@@ -557,13 +687,13 @@
                         "From 150 followers to VC invites in 30 days flat."
                     </p>
                     <div class="relative group">
-                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case6')">
+                        <button class="text-[#07efce] text-sm font-medium flex items-center gap-1 focus:outline-none" onclick="toggleDropdown('case8')">
                             View more 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <div id="case6" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
+                        <div id="case8" class="hidden mt-4 p-4 bg-[#1a1a1a] border border-[#07efce]/10 rounded-lg text-sm text-gray-300">
                             <p class="mb-3"><strong>Challenge:</strong> Needed to attract VC attention, grow visibility, and build credibility in a pre-funding phase.</p>
                             <p class="mb-3"><strong>Approach:</strong> Designed a 4-week daily content sprint tailored to investors, incubators, and startup partners.</p>
                             <p class="mb-3"><strong>Results:</strong> From 150 to 2K+ followers, 50+ startup page followers from zero, 5–10 warm inbound leads per week, Invites to accelerators and startup conferences.</p>
@@ -694,21 +824,29 @@
 
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);
-            if (dropdown.classList.contains('hidden')) {
-
-                if (id.startsWith('case')) {
-                    document.querySelectorAll('[id^="case"]').forEach(el => {
-                        if (el.id !== id) {
-                            el.classList.add('hidden');
-                        }
-                    });
+            const isCurrentlyHidden = dropdown.classList.contains('hidden');
+            
+            // Close all other dropdowns first
+            document.querySelectorAll('[id^="case"]').forEach(el => {
+                if (el.id !== id) {
+                    el.classList.add('hidden');
                 }
-
+            });
+            
+            // Toggle current dropdown
+            if (isCurrentlyHidden) {
                 dropdown.classList.remove('hidden');
             } else {
                 dropdown.classList.add('hidden');
             }
         }
+
+        // Initialize all cards with proper height
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('[id^="case"]').forEach(dropdown => {
+                dropdown.classList.add('hidden');
+            });
+        });
 
         // Performance monitoring (deferred)
         if (window.requestIdleCallback) {
@@ -723,6 +861,34 @@
                 }
             });
         }
+
+        // JavaScript glow animation
+        (function() {
+            const dot = document.getElementById('glow-dot');
+            if (!dot) return;
+            
+            let startTime = Date.now();
+            
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const cycle = (elapsed % 2000) / 2000; // 2 second cycle
+                
+                // Use sine wave for smooth easing
+                const intensity = (Math.sin(cycle * Math.PI * 2) + 1) / 2;
+                
+                // Interpolate between min and max shadows
+                const baseOpacity = 0.2 + (intensity * 0.6); // 0.2 to 0.8
+                const midOpacity = 0.4 + (intensity * 0.4);  // 0.4 to 0.8
+                const maxOpacity = 0.6 + (intensity * 0.2);  // 0.6 to 0.8
+                
+                const shadow = `0 0 5px rgba(7, 239, 206, ${baseOpacity}), 0 0 10px rgba(7, 239, 206, ${midOpacity}), 0 0 20px rgba(7, 239, 206, ${maxOpacity})`;
+                dot.style.boxShadow = shadow;
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        })();
     </script>
 </body>
 </html>
