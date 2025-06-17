@@ -168,9 +168,6 @@
                     <a href="#proper-system" class="px-4 py-2 text-sm font-medium border border-[#07efce]/30 text-white rounded-lg hover:bg-[#07efce]/10 transition-all hover:border-[#07efce]" aria-label="Learn about the Proper System">
                         The Proper System
                     </a>
-                    <a href="/focus/" class="px-4 py-2 text-sm italic-text bg-[#222222] text-white border border-[#07efce]/20 rounded-lg hover:bg-[#333] transition-all" aria-label="Enter focus mode">
-                        Focus
-                    </a>
                     <a href="https://cal.com/divincenzo/30min" class="px-4 py-2 text-sm font-medium text-[#111] bg-[#07efce] rounded-lg hover:bg-[#06d9b9] transition-all hover-glow" aria-label="Schedule consultation">
                         Start now
                     </a>
@@ -442,7 +439,7 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 0.4s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
@@ -516,7 +513,7 @@
                         </div>
                     </div>
                 </article>
-
+                
                 <article class="flex-shrink-0 w-80 md:w-96 bg-[#161616] border border-[#07efce]/20 rounded-2xl p-8 hover:border-[#07efce]/50 transition-all animate-on-scroll snap-start case-study-card" style="animation-delay: 0.8s">
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-12 h-12 bg-[#07efce]/10 rounded-full flex items-center justify-center">
@@ -825,14 +822,14 @@
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);
             const isCurrentlyHidden = dropdown.classList.contains('hidden');
-            
+
             // Close all other dropdowns first
-            document.querySelectorAll('[id^="case"]').forEach(el => {
-                if (el.id !== id) {
-                    el.classList.add('hidden');
-                }
-            });
-            
+                    document.querySelectorAll('[id^="case"]').forEach(el => {
+                        if (el.id !== id) {
+                            el.classList.add('hidden');
+                        }
+                    });
+
             // Toggle current dropdown
             if (isCurrentlyHidden) {
                 dropdown.classList.remove('hidden');
