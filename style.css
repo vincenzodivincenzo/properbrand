@@ -100,14 +100,27 @@ body {
 
 /* Fix case studies scroll behavior */
 .touch-pan-x {
-    touch-action: pan-x pan-down;
+    touch-action: pan-x;
     overscroll-behavior-x: contain;
-    overscroll-behavior-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
 .touch-pan-x::-webkit-scrollbar {
     display: none;
+}
+
+.case-studies-container {
+    align-items: flex-start;
+}
+
+.case-study-card {
+    min-height: 420px;
+    transition: none !important;
+    transform: none !important;
+}
+
+.case-study-card:hover {
+    transform: none !important;
 }
 
 /* Prevent vertical scroll issues */
