@@ -1,17 +1,18 @@
 RewriteEngine On
 
-# Force HTTPS redirect
+# Force www subdomain and HTTPS
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^(.*)$ https://www.properbrand.co/$1 [L,R=301]
+
 RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteRule ^(.*)$ https://www.properbrand.co/$1 [L,R=301]
 
-# Force non-www to www (optional - adjust based on your preference)
-# RewriteCond %{HTTP_HOST} !^www\. [NC]
-# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Redirect index.html to root
+Redirect 301 /index.html https://www.properbrand.co/
 
-# Handle trailing slashes consistently
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} !/$
-RewriteRule ^(.*)$ $1/ [L,R=301]
+# Redirect non-existent pages to homepage
+Redirect 301 /focus/ https://www.properbrand.co/
+Redirect 301 /x/ https://www.properbrand.co/
 
-# Custom 404 error page (optional)
+# Custom 404 error page
 ErrorDocument 404 /404.html 
