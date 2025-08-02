@@ -1,0 +1,7 @@
+# Redirect non-www to www
+https://properbrand.co/* https://www.properbrand.co/:splat 301!
+http://properbrand.co/* https://www.properbrand.co/:splat 301!
+
+# Redirect robots.txt specifically
+https://properbrand.co/robots.txt https://www.properbrand.co/robots.txt 301!
+http://properbrand.co/robots.txt https://www.properbrand.co/robots.txt 301! 
