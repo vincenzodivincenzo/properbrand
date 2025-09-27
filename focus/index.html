@@ -287,17 +287,16 @@
         const volumeControl = document.getElementById('volumeControl');
         const muteSound = document.getElementById('muteSound');
 
-        let timer;
-        let timeLeft;
+        let timeLeft = 0;
         let isRunning = false;
         let totalTimeSpent = 0;
         let sessionsCompleted = 0;
         let isWorkMode = true;
         let pomodoroSequence = 0;
-        let totalInitialTime;
+        let totalInitialTime = 0;
         let sessionHistory = [];
-        let startTime;
-        let elapsedTime = 0;
+        let sessionElapsedSeconds = 0;
+        let storedFocusSeconds = 0;
 
 
         function playButtonSound() {
@@ -316,8 +315,12 @@
             }
         }
         
-        document.querySelectorAll('button, input[type="checkbox"], input[type="range"]').forEach(element => {
-            element.addEventListener('click', playButtonSound);
+        [startButton, pauseButton, resetButton, skipButton].forEach(button => {
+            button.addEventListener('click', playButtonSound);
+        });
+
+        [muteSound, workMinutesInput, breakMinutesInput, longBreakMinutesInput, volumeControl].forEach(control => {
+            control.addEventListener('change', playButtonSound);
         });
 
         function updateButtonStates() {
@@ -338,7 +341,8 @@
                 workMinutesInput.value = settings.work;
                 breakMinutesInput.value = settings.break;
                 longBreakMinutesInput.value = settings.longBreak;
-                totalTimeSpent = settings.totalTime || 0;
+                storedFocusSeconds = ((settings.totalTime || 0) * 60);
+                totalTimeSpent = Math.floor(storedFocusSeconds / 60);
                 sessionsCompleted = settings.sessions || 0;
                 
                 if (settings.volume !== undefined) {
@@ -362,7 +366,7 @@
                 work: workMinutesInput.value,
                 break: breakMinutesInput.value,
                 longBreak: longBreakMinutesInput.value,
-                totalTime: totalTimeSpent,
+                totalTime: Math.floor(storedFocusSeconds / 60),
                 sessions: sessionsCompleted,
                 volume: volumeControl.value,
                 mute: muteSound.checked
@@ -379,13 +383,13 @@
             const remainingSeconds = seconds % 60;
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
             
-            const progress = ((totalInitialTime - seconds) / totalInitialTime) * 100;
+            const progress = totalInitialTime ? ((totalInitialTime - seconds) / totalInitialTime) * 100 : 0;
             progressBar.style.width = `${progress}%`;
         }
 
         function updateStats() {
             sessionsCount.textContent = sessionsCompleted;
-            totalTime.textContent = totalTimeSpent;
+            totalTime.textContent = Math.floor(storedFocusSeconds / 60);
             saveSettings();
         }
 
@@ -453,26 +457,25 @@
             });
         }
 
-        function switchMode(shouldAddHistory = true) {
+        function switchMode(shouldAddHistory = true, completedSeconds = sessionElapsedSeconds) {
             if (shouldAddHistory) {
+                playTimerEndSound();
+                const minutesSpent = Math.floor(completedSeconds / 60);
+
                 if (isWorkMode) {
-                    playTimerEndSound();
-                    
-                    const label = document.getElementById('workLabel').value || "";
-                    const actualTimeSpent = Math.floor(elapsedTime / 60);
-                    addHistoryEntry('Work', actualTimeSpent, label);
-                    
-                    document.getElementById('workLabel').value = "";
+                    const workLabelInput = document.getElementById('workLabel');
+                    const label = workLabelInput.value || "";
+                    addHistoryEntry('Work', minutesSpent, label);
+                    workLabelInput.value = "";
                 } else {
-                    playTimerEndSound();
-                    
-                    const actualTimeSpent = Math.floor(elapsedTime / 60);
                     const breakType = pomodoroSequence === 3 ? 'Long Break' : 'Break';
-                    addHistoryEntry(breakType, actualTimeSpent);
+                    addHistoryEntry(breakType, minutesSpent);
                 }
             }
-            
+
+            sessionElapsedSeconds = 0;
             isWorkMode = !isWorkMode;
+
             if (isWorkMode) {
                 timeLeft = workMinutesInput.value * 60;
                 modeDisplay.textContent = "Work Time";
@@ -496,62 +499,49 @@
                 document.getElementById('workLabel').classList.add('cursor-not-allowed', 'opacity-50');
                 startTimer();
             }
+
             totalInitialTime = timeLeft;
             updateDisplay(timeLeft);
-            elapsedTime = 0;
-            startTime = null;
+            updateStats();
         }
 
         function startTimer() {
-            if (!isRunning) {
-                playButtonSound();
-                isRunning = true;
-                startTime = Date.now();
-                updateButtonStates();
-                
-                timerWorker.postMessage('start');
-                timerWorker.onmessage = function(e) {
-                    if (e.data === 'tick') {
-                        if (timeLeft > 0) {
-                            timeLeft--;
-                            updateDisplay(timeLeft);
-                            if (isWorkMode) {
-                                elapsedTime = (Date.now() - startTime) / 1000;
-                                totalTimeSpent = Math.floor(elapsedTime / 60);
-                                updateStats();
-                            }
-                        } else {
-                            timerWorker.postMessage('stop');
-                            isRunning = false;
-                            updateButtonStates();
-                            
-                            playTimerEndSound();
-                            
-                            if (isWorkMode) {
-                                sessionsCompleted++;
-                                const actualTimeSpent = Math.floor(elapsedTime / 60);
-                                totalTimeSpent += actualTimeSpent;
-                                updateStats();
-                            }
-                            
-                            switchMode(true);
-                        }
+            if (isRunning) return;
+
+            isRunning = true;
+            updateButtonStates();
+            timerWorker.postMessage('start');
+
+            timerWorker.onmessage = function(e) {
+                if (e.data !== 'tick') return;
+
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    sessionElapsedSeconds++;
+
+                    if (isWorkMode) {
+                        storedFocusSeconds++;
                     }
-                };
-            }
+
+                    updateStats();
+                    updateDisplay(timeLeft);
+                } else {
+                    timerWorker.postMessage('stop');
+                    isRunning = false;
+                    updateButtonStates();
+
+                    switchMode(true, sessionElapsedSeconds);
+                }
+            };
         }
 
         function pauseTimer() {
+            if (!isRunning) return;
+
             timerWorker.postMessage('stop');
             isRunning = false;
             updateButtonStates();
-            if (startTime) {
-                elapsedTime += (Date.now() - startTime) / 1000;
-                if (isWorkMode) {
-                    totalTimeSpent = Math.floor(elapsedTime / 60);
-                    updateStats();
-                }
-            }
+            updateStats();
         }
 
         function resetTimer() {
@@ -562,35 +552,28 @@
             pomodoroSequence = 0;
             timeLeft = workMinutesInput.value * 60;
             totalInitialTime = timeLeft;
-            elapsedTime = 0;
+            sessionElapsedSeconds = 0;
             modeDisplay.textContent = "Work Time";
             modeDisplay.style.color = "#07efce";
             document.querySelector('.tomato').className = "tomato work hover-glow";
+            document.getElementById('workLabel').disabled = false;
+            document.getElementById('workLabel').classList.remove('cursor-not-allowed', 'opacity-50');
             updateDisplay(timeLeft);
+            updateStats();
         }
 
         function skipSession() {
             timerWorker.postMessage('stop');
             isRunning = false;
             updateButtonStates();
-            
-            const actualTimeSpent = Math.floor(elapsedTime / 60);
-            
+            const completedSeconds = sessionElapsedSeconds;
+
             if (isWorkMode) {
-                const label = document.getElementById('workLabel').value || "";
-                addHistoryEntry('Work', actualTimeSpent, label);
-                sessionsCompleted++;
-                totalTimeSpent += actualTimeSpent;
-                document.getElementById('workLabel').value = "";
-            } else {
-                const breakType = pomodoroSequence === 3 ? 'Long Break' : 'Break';
-                addHistoryEntry(breakType, actualTimeSpent);
+                storedFocusSeconds = Math.max(0, storedFocusSeconds - completedSeconds);
             }
-            
-            updateStats();
-            elapsedTime = 0;
-            startTime = null;
-            switchMode(false);
+
+            sessionElapsedSeconds = 0;
+            switchMode(false, completedSeconds);
         }
 
         function clearHistory() {
