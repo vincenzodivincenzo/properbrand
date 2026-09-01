@@ -1,4 +1,26 @@
+# properbrand.co — crawler policy
+# All crawlers are allowed on all paths.
+
 User-agent: *
-Disallow:
+Allow: /
+
+# --- OpenAI crawlers (explicitly allowed) ---
+# https://developers.openai.com/api/docs/bots
+
+# Required for ChatGPT Ads landing page validation
+User-agent: OAI-AdsBot
+Allow: /
+
+# Recommended: surfaces the site in ChatGPT search
+User-agent: OAI-SearchBot
+Allow: /
+
+# User-initiated fetches from ChatGPT and Custom GPTs
+User-agent: ChatGPT-User
+Allow: /
+
+# Model training crawler
+User-agent: GPTBot
+Allow: /
 
 Sitemap: https://www.properbrand.co/sitemap.xml
