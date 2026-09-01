@@ -759,9 +759,27 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.animate-on-scroll').forEach((element) => {
-            observer.observe(element);
-        });
+        const revealTargets = document.querySelectorAll('.animate-on-scroll');
+
+        if ('IntersectionObserver' in window) {
+            revealTargets.forEach((element) => {
+                observer.observe(element);
+            });
+
+            // Fail-safe: never leave content stuck at opacity 0.
+            // Automated renderers (search, AI and ad-review crawlers) load the page
+            // without scrolling, so anything below the fold would otherwise stay
+            // invisible and be read as missing content. Reveal it regardless.
+            setTimeout(() => {
+                revealTargets.forEach((element) => {
+                    element.classList.add('visible');
+                });
+            }, 2000);
+        } else {
+            revealTargets.forEach((element) => {
+                element.classList.add('visible');
+            });
+        }
         
 
         function toggleDropdown(id) {
