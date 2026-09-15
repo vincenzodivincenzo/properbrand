@@ -1,4 +1,4 @@
-# properbrand.co — crawler policy
+# properbrand.co crawler policy
 # All crawlers are allowed on all paths.
 
 User-agent: *
