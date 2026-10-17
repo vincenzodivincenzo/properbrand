@@ -14,6 +14,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proper Brand - LinkedIn Lead Generation</title>
 
+    <!-- Consent Mode: analytics stays off until the visitor accepts -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      let analyticsConsent = 'denied';
+      try { if (localStorage.getItem('analytics-consent') === 'granted') analyticsConsent = 'granted'; } catch (e) {}
+      gtag('consent', 'default', { analytics_storage: analyticsConsent, ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    </script>
+
     <!-- Google Tag Manager -->
     <script>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -48,7 +57,7 @@
     <!-- Custom Styles -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
 
     <style>
         /* Critical CSS inlined for faster LCP. Everything else lives in style.css */
@@ -737,6 +746,7 @@
                 <p>© 2025 Proper Brand. All rights reserved.</p>
                 <div class="flex gap-6 mt-4 md:mt-0">
                     <a href="https://www.notion.so/properbrand/Privacy-Policy-1d6ad8dd9fdd80538537e96e64f3c8cc" class="hover:text-[#07efce]">Privacy Policy</a>
+                    <button type="button" class="consent-open hover:text-[#07efce]">Cookie settings</button>
                     <a href="mailto:vin.divincenzo@gmail.com" class="hover:text-[#07efce]">Contact</a>
                 </div>
             </div>
@@ -829,6 +839,31 @@
             window.addEventListener('resize', update, { passive: true });
             update();
         })();
+    </script>
+    <div class="consent" role="region" aria-label="Cookie consent" hidden>
+        <p>Can I use Google Analytics cookies to see how visitors find and use this site? <a href="https://www.notion.so/properbrand/Privacy-Policy-1d6ad8dd9fdd80538537e96e64f3c8cc">Privacy Policy</a></p>
+        <div class="consent-actions"><button type="button" data-consent="denied">Decline</button><button type="button" data-consent="granted">Accept</button></div>
+    </div>
+    <script>
+        const consentBanner = document.querySelector('.consent');
+        const storedConsent = () => { try { return localStorage.getItem('analytics-consent'); } catch (e) { return null; } };
+        const clearAnalyticsCookies = () => document.cookie.split('; ').map(c => c.split('=')[0]).filter(name => name.startsWith('_ga')).forEach(name => {
+            [location.hostname, '.' + location.hostname.replace(/^www\./, '')].forEach(domain => { document.cookie = `${name}=; Max-Age=0; path=/; domain=${domain}`; });
+            document.cookie = `${name}=; Max-Age=0; path=/`;
+        });
+        consentBanner.hidden = storedConsent() !== null;
+        consentBanner.addEventListener('click', event => {
+            const choice = event.target.closest('[data-consent]')?.dataset.consent;
+            if (!choice) return;
+            try { localStorage.setItem('analytics-consent', choice); } catch (e) {}
+            gtag('consent', 'update', { analytics_storage: choice });
+            if (choice === 'denied') clearAnalyticsCookies();
+            consentBanner.hidden = true;
+        });
+        document.querySelector('.consent-open').addEventListener('click', () => {
+            consentBanner.hidden = false;
+            consentBanner.querySelector('button').focus();
+        });
     </script>
 </body>
 </html>
